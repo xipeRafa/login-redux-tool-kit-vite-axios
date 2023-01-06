@@ -11,7 +11,7 @@ const axiosApi = axios.create({
 });
 
 (async () => {
-    const { data } = await axiosApi.get('/register')
+    const { data } = await axiosApi.get('/usuarios')
     console.log('usuarios Registrados', data)
 })()
 

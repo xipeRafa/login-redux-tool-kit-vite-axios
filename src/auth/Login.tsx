@@ -24,7 +24,7 @@ export const Login = () => {
 
     const loginSubmit = (event: any) => {
         event.preventDefault();
-        startLogin({ email: loginEmail, password: loginPassword });
+        startLogin({ correo: loginEmail, password: loginPassword });
     }
 
     useEffect(() => {
@@ -67,7 +67,7 @@ export const Login = () => {
                         </div>
                     </form>
 
-                    <Link to="/register">Register</Link>
+                    <Link to="/api/usuarios">Register</Link>
 
                 </div>
             </div>

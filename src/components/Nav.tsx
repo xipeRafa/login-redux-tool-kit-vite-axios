@@ -5,12 +5,14 @@ export const Nav = () => {
 
   const { startLogout, user } = useAuth();
 
+ console.log(user.nombre)
+
   return (
     <div className="navbar navbar-dark bg-dark mb-4 px-4">
         <span className="navbar-brand">
             <i className="fas fa-calendar-alt"></i>
             &nbsp;
-            { user.name }
+            { user.nombre }
         </span>
 
         <button className="btn btn-outline-danger" onClick={ startLogout }>

@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react'; 
 import { Navigate, Route, Routes, } from 'react-router-dom';
 
 import { Login } from '../auth/Login';
@@ -11,13 +11,15 @@ import { useAuth } from '../hooks/useAuth';
 
 const AppRouter = () => {
 
-    const { status, checkAuthToken } = useAuth();
+    const { status,  checkAuthToken } = useAuth();
     console.log('status:', status)
     // const authStatus = 'not-authenticated'; // 'authenticated'; // 'not-authenticated';
 
+   
+
     useEffect(() => {
         checkAuthToken();
-    }, [])
+    }, []) 
 
 
     if (status === 'checking') {
@@ -29,9 +31,9 @@ const AppRouter = () => {
             {
                 status === 'not-authenticated'
                     ? <>
-                        <Route path="/auth/*" element={<Login />} />
-                        <Route path="/register" element={<SignUp />} />
-                        <Route path="/*" element={<Navigate to="/auth/login" />} />
+                        <Route path="/api/auth/login" element={<Login />} />
+                        <Route path="/api/usuarios" element={<SignUp />} />
+                        <Route path="/*" element={<Navigate to="/api/auth/login" />} />
                     </>
                     : <>
                         <Route path="/" element={<Nav />} />

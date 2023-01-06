@@ -9,7 +9,7 @@ const registerFormFields = {
     registerName: '',
     registerEmail: '',
     registerPassword: '',
-    registerPassword2: '',
+    registerPassword2: ''
 }
 
 
@@ -29,7 +29,7 @@ export const SignUp = () => {
             return;
         }
 
-        startRegister({ name: registerName, email: registerEmail, password: registerPassword });
+        startRegister({ nombre: registerName, correo: registerEmail, password: registerPassword });
     }
 
 
@@ -90,7 +90,7 @@ export const SignUp = () => {
                         </div>
                     </form>
 
-                    <Link to="/auth">Login</Link>
+                    <Link to="/api/auth/login">Login</Link>
 
                 </div>
             </div>
