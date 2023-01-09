@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { useAuth, } from '../hooks/useAuth';
 import { useForm } from '../hooks/useForm';
 import './login.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 type loginFormFields = {
     loginEmail: String,
@@ -18,6 +18,8 @@ const loginFormFields:loginFormFields = {
 
 export const Login = () => {
 
+    let location = useLocation();
+
     const { startLogin, errorMessage } = useAuth();
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
@@ -25,6 +27,7 @@ export const Login = () => {
     const loginSubmit = (event: any) => {
         event.preventDefault();
         startLogin({ correo: loginEmail, password: loginPassword });
+        location.pathname = '/img1'
     }
 
     useEffect(() => {

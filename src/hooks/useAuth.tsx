@@ -49,12 +49,15 @@ export const useAuth = () => {
 
      const checkLogin = async () => {
         const token = localStorage.getItem('token');
+        console.log('=-=-=-=-=--=->> checkLogin2')
         if (!token) return dispatch(onLogout()); 
-
+        
         try {
             const { data } = await axiosApi.get('auth/renew');
             dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
+            console.log('=-=-=-=-=--=->> checkLogin')
         } catch (error) {
+            console.log('=-=-=-=-=--=->> checkLogin3')
             localStorage.clear();
             dispatch(onLogout());
         }

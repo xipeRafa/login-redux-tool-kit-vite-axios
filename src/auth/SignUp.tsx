@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { useAuth } from '../hooks/useAuth';
 import { useForm } from '../hooks/useForm';
 import './login.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const registerFormFields = {
     registerName: '',
@@ -15,6 +15,8 @@ const registerFormFields = {
 
 
 export const SignUp = () => {
+
+    let location = useLocation();
 
     const { startRegister } = useAuth();
 
@@ -30,6 +32,7 @@ export const SignUp = () => {
         }
 
         startRegister({ nombre: registerName, correo: registerEmail, password: registerPassword });
+        location.pathname = '/img1'
     }
 
 
