@@ -11,14 +11,14 @@ import { useAuth } from '../hooks/useAuth';
 
 const AppRouter = () => {
 
-    const { status,  checkAuthToken } = useAuth();
+    const { status,  checkLogin } = useAuth();
     console.log('status:', status)
     // const authStatus = 'not-authenticated'; // 'authenticated'; // 'not-authenticated';
 
    
 
     useEffect(() => {
-        checkAuthToken();
+        checkLogin();
     }, []) 
 
 

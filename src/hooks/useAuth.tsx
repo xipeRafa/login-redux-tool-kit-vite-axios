@@ -10,7 +10,6 @@ export const useAuth = () => {
 
     function saveLsData(DATA: { usuario: { nombre: string; uid: string; }; token: string; }){
         localStorage.setItem('userName', DATA.usuario.nombre);
-        localStorage.setItem('userId', DATA.usuario.uid);
         localStorage.setItem('token', DATA.token);
         localStorage.setItem('token-init-date', new Date().getTime());
     }
@@ -20,7 +19,6 @@ export const useAuth = () => {
         dispatch(onChecking());
         try {
             const { data } = await axiosApi.post('/auth/login', { correo, password });
-            console.log('data:', data)
             saveLsData(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
 
@@ -49,15 +47,13 @@ export const useAuth = () => {
     }
 
 
-     const checkAuthToken = async () => {
+     const checkLogin = async () => {
         const token = localStorage.getItem('token');
-         if (!token) return dispatch(onLogout()); 
+        if (!token) return dispatch(onLogout()); 
 
-         const nombreLS = localStorage.getItem('userName');
-            const uidLS = localStorage.getItem('userId');
         try {
-            localStorage.setItem('token', token);
-            dispatch(onLogin({ nombre: nombreLS, uid: uidLS }));
+            const { data } = await axiosApi.get('auth/renew');
+            dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
         } catch (error) {
             localStorage.clear();
             dispatch(onLogout());
@@ -79,7 +75,7 @@ export const useAuth = () => {
         user,
 
         //* Métodos
-       checkAuthToken, 
+        checkLogin, 
         startLogin,
         startLogout,
         startRegister,
