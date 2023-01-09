@@ -27,6 +27,7 @@ const AppRouter = () => {
     }
 // 
     return (
+        <><Nav />
         <Routes>
             {
                 status === 'not-authenticated'
@@ -36,12 +37,20 @@ const AppRouter = () => {
                         <Route path="/*" element={<Navigate to="/api/auth/login" />} />
                     </>
                     : <>
-                        <Route path="/" element={<Nav />} />
+                        
+                        
+                        <Route path="/img1" element={<p> ------ imagen1 uno uno uno uno uno</p>} />
+                        <Route path="/img2" element={<p> ------ imagen2 dos dos dos dos dos</p>} />
                         <Route path="/*" element={<Navigate to="/" />} />
                     </>
+                
+              
             }
         </Routes>
+        </>
     )
 }
 
 export default AppRouter
+
+  {/*      */}
