@@ -8,23 +8,20 @@ export const useAuth = () => {
     const dispatch = useDispatch();
 
 
-    function saveLsData(DATA){
-        localStorage.setItem('userName', DATA.nombre);
-        localStorage.setItem('userId', DATA.uid);
-    }
-
-    function saveLsToken(DATA){
+    function saveLsData(DATA: { usuario: { nombre: string; uid: string; }; token: string; }){
+        localStorage.setItem('userName', DATA.usuario.nombre);
+        localStorage.setItem('userId', DATA.usuario.uid);
         localStorage.setItem('token', DATA.token);
         localStorage.setItem('token-init-date', new Date().getTime());
     }
+
 
     const startLogin = async ({ correo, password }) => {
         dispatch(onChecking());
         try {
             const { data } = await axiosApi.post('/auth/login', { correo, password });
             console.log('data:', data)
-            saveLsToken(data)
-            saveLsData(data.usuario)
+            saveLsData(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
 
         } catch (error) {
@@ -41,8 +38,7 @@ export const useAuth = () => {
         dispatch(onChecking());
         try {
             const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
-            saveLsToken(data)
-            saveLsData(data.usuario)
+            saveLsData(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
         } catch (error) {
             dispatch(onLogout(error.response.data?.msg || '--nooooo'));
@@ -59,10 +55,8 @@ export const useAuth = () => {
 
          const nombreLS = localStorage.getItem('userName');
             const uidLS = localStorage.getItem('userId');
-
         try {
-            const { data } = await axiosApi.get('auth/renew');
-            saveLsToken(data)
+            localStorage.setItem('token', token);
             dispatch(onLogin({ nombre: nombreLS, uid: uidLS }));
         } catch (error) {
             localStorage.clear();

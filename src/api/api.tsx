@@ -22,7 +22,7 @@ axiosApi.interceptors.request.use(config => {
 
     config.headers = {
         ...config.headers,
-        'x-token': localStorage.getItem('token')
+        'token': localStorage.getItem('token')
     }
 
     return config;
