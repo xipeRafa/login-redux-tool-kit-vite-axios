@@ -27,7 +27,7 @@ export const Login = () => {
     const loginSubmit = (event: any) => {
         event.preventDefault();
         startLogin({ correo: loginEmail, password: loginPassword });
-        location.pathname = '/img1'
+        location.pathname = '/users'
     }
 
     useEffect(() => {

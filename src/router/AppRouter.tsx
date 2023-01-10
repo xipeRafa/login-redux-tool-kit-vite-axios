@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { Login } from '../auth/Login';
 import { SignUp } from '../auth/SignUp';
+import { Users } from '../components/Users';
 
 import { useAuth } from '../hooks/useAuth';
 
@@ -29,7 +30,7 @@ const AppRouter = () => {
         <Routes>
             <Route path="/api/auth/login" element={<Login />} />
             <Route path="/api/usuarios" element={<SignUp />} />
-            <Route path="/img1" element={<p> ------ imagen1 uno uno uno uno uno</p>} />
+            <Route path="/users" element={<Users />} />
             <Route path="/img2" element={<p> ------ imagen2 dos dos dos dos dos</p>} />
              <Route path="/*"   element={<Navigate to="api/auth/login" />} /> 
         </Routes>

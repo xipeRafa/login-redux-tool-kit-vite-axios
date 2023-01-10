@@ -10,10 +10,11 @@ const axiosApi = axios.create({
     baseURL: VITE_API_URL
 });
 
+
 (async () => {
     const { data } = await axiosApi.get('/usuarios')
     console.log('usuarios Registrados', data)
-})()
+})() 
 
 
 

@@ -16,7 +16,7 @@ export const Nav = () => {
         {status === 'authenticated' &&
           <div>
             <span>
-              <Link style={{color:"white"}}  to="/img1">img1</Link>
+              <Link style={{color:"white"}}  to="/users">users</Link>
               <Link style={{color:"white"}} className='mx-5' to="/img2">img2</Link>
             </span>
 

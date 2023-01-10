@@ -37,27 +37,30 @@ export const useAuth = () => {
         try {
             const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
             saveLsData(data)
+            console.log(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
         } catch (error) {
+            console.log('errorRegister :>> ', error);
+            console.log('error.response.data?.msg :>> ', error.response.data?.msg);
+            console.log('error.response.data :>> ', error.response.data);
+
             dispatch(onLogout(error.response.data?.msg || '--nooooo'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
-            }, 1000);
+            }, 30000);
         }
     }
 
 
      const checkLogin = async () => {
         const token = localStorage.getItem('token');
-        console.log('=-=-=-=-=--=->> checkLogin2')
         if (!token) return dispatch(onLogout()); 
         
         try {
             const { data } = await axiosApi.get('auth/renew');
             dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
-            console.log('=-=-=-=-=--=->> checkLogin')
         } catch (error) {
-            console.log('=-=-=-=-=--=->> checkLogin3')
+
             localStorage.clear();
             dispatch(onLogout());
         }
@@ -72,7 +75,7 @@ export const useAuth = () => {
 
 
     return {
-        //* Propiedades
+        //* estado
         errorMessage,
         status,
         user,

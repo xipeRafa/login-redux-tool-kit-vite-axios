@@ -26,13 +26,18 @@ export const SignUp = () => {
     const registerSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
+        if( registerEmail==='' || registerName==='' || registerPassword==='' || registerPassword2==='' ){
+            console.log('empty fields')
+            return
+        }
+
         if (registerPassword !== registerPassword2) {
             Swal.fire('Error en registro', 'Contraseñas no son iguales', 'error');
             return;
         }
 
         startRegister({ nombre: registerName, correo: registerEmail, password: registerPassword });
-        location.pathname = '/img1'
+        location.pathname = '/users' 
     }
 
 
