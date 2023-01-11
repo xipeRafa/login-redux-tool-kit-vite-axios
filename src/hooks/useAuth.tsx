@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store/authSlice'
+import { useLocation } from 'react-router-dom';
 import axiosApi from '../api/api';
 
 export const useAuth = () => {
+    let location = useLocation();
 
     const { status, user, errorMessage } = useSelector(state => state.authSlice);
     const dispatch = useDispatch();
@@ -42,25 +44,31 @@ export const useAuth = () => {
         } catch (error) {
             console.log('errorRegister :>> ', error);
             console.log('error.response.data?.msg :>> ', error.response.data?.msg);
-            console.log('error.response.data :>> ', error.response.data);
+            console.log('error.response.data.errors[0] :>> ', error.response.data.errors[0]);
+            console.log('error.response.data.errors[1] :>> ', error.response.data.errors[1]);
+            console.log('error.response.data.errors[2] :>> ', error.response.data.errors[2]);
 
-            dispatch(onLogout(error.response.data?.msg || '--nooooo'));
-            setTimeout(() => {
+            console.log('error.response.data.errors :>> ', error.response.data.errors);
+
+            dispatch(onLogout(error.response.data.errors[0] || '--- useAuth'));
+            /* setTimeout(() => {
                 dispatch(clearErrorMessage());
-            }, 30000);
+            }, 30000); */
         }
     }
 
 
      const checkLogin = async () => {
         const token = localStorage.getItem('token');
-        if (!token) return dispatch(onLogout()); 
+        if (!token){ 
+            location.pathname = '/api/auth/login'
+            return dispatch(onLogout())
+        }
         
         try {
             const { data } = await axiosApi.get('auth/renew');
             dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
         } catch (error) {
-
             localStorage.clear();
             dispatch(onLogout());
         }

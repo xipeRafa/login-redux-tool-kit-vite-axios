@@ -20,14 +20,17 @@ export const Login = () => {
 
     let location = useLocation();
 
-    const { startLogin, errorMessage } = useAuth();
+    const { startLogin, errorMessage, status } = useAuth();
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
 
     const loginSubmit = (event: any) => {
         event.preventDefault();
         startLogin({ correo: loginEmail, password: loginPassword });
-        location.pathname = '/users'
+
+
+                location.pathname = '/users' 
+         
     }
 
     useEffect(() => {

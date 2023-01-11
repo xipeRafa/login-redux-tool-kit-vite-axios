@@ -18,9 +18,10 @@ export const SignUp = () => {
 
     let location = useLocation();
 
-    const { startRegister } = useAuth();
+    const { startRegister,  status } = useAuth();
 
-    const { registerEmail, registerName, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm(registerFormFields);
+    const { registerEmail, registerName, registerPassword, registerPassword2, 
+            onInputChange: onRegisterInputChange } = useForm(registerFormFields);
 
 
     const registerSubmit = (event: { preventDefault: () => void; }) => {
@@ -37,7 +38,11 @@ export const SignUp = () => {
         }
 
         startRegister({ nombre: registerName, correo: registerEmail, password: registerPassword });
-        location.pathname = '/users' 
+
+
+                location.pathname = '/users' 
+       
+     
     }
 
 

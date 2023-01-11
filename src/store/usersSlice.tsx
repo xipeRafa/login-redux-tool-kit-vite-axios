@@ -18,8 +18,13 @@ export const usersSlice = createSlice({
             state.errorMessage = undefined;
         },
         userDeleteView: (state, { payload }) => {
-            console.log('payload', payload)
+            console.log('payloadDelete', payload)
             state.users = payload;
+            state.errorMessage = undefined;
+        },
+        switchUserView:(state, {payload})=>{
+            console.log('payloadToggle', payload)
+            state.users = payload
             state.errorMessage = undefined;
         }
     }
@@ -27,4 +32,4 @@ export const usersSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { usersDataPush, clearErrorMessageUsers, userDeleteView } = usersSlice.actions;
+export const { usersDataPush, clearErrorMessageUsers, userDeleteView, switchUserView } = usersSlice.actions;
