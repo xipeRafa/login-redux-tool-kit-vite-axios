@@ -33,11 +33,11 @@ export const useAuth = () => {
             saveLsData(data)
 
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
-            location.pathname = '/productos' 
+            location.pathname = '/productos'             
         } catch (error) {
             errorConsoleCatch(error) 
-            dispatch(onLogout('Credenciales incorrectas --- useAuth'));
-           /*  setTimeout(() => {
+            dispatch(onLogout(error.response.data.errors[0].msg));
+            /*  setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 1000); */
         }
@@ -58,12 +58,14 @@ export const useAuth = () => {
             location.pathname = '/productos' 
         } catch (error) {
             errorConsoleCatch(error)
-            dispatch(onLogout(error.response.data.errors[0] || '--- useAuth'));
+            dispatch(onLogout(error.response.data.errors[0].msg || '--- useAuth'));
             /* setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 30000); */
         }
     }
+
+
 
 
 
@@ -85,11 +87,17 @@ export const useAuth = () => {
     } 
 
 
+
+
+
+
     const startLogout = () => {
         localStorage.clear();
         dispatch(onLogout());
         location.pathname = '/auth/login'
     }
+
+
 
 
 

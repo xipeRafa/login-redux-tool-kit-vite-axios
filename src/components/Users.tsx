@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react'
+import Swal from 'sweetalert2';
 
 import {useUsers} from '../hooks/useUsers'
 
 export const Users = () => {
+
     const character = {
         display: "block",
         border: "2px solid salmon",
@@ -13,11 +15,17 @@ export const Users = () => {
         backgroundColor:"lightgray"
     }
 
-    const { dataUsersGet, users, deleteUser, switchUser } = useUsers()
+    const { dataUsersGet, users, deleteUser, switchUser, errorMessage } = useUsers()
 
     useEffect(() => {
         dataUsersGet()
     }, [])
+
+    useEffect(() => {
+        if (errorMessage !== undefined) {
+            Swal.fire(errorMessage,'Con Exito!!', 'success' );
+        }
+    }, [errorMessage]) 
 
 
     const handleDelete=(uid:String)=>{

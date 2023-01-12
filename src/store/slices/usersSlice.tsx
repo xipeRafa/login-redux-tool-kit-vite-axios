@@ -20,7 +20,7 @@ export const usersSlice = createSlice({
         userDeleteView: (state, { payload }) => {
             console.log('payloadDelete', payload)
             state.users = payload;
-            state.errorMessage = undefined;
+            state.errorMessage = `Usuario ${payload.alert} fue borrado`;
         },
         switchUserView:(state, {payload})=>{
             console.log('payloadToggle', payload)

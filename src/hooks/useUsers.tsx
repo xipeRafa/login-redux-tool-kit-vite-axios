@@ -35,7 +35,7 @@ export const useUsers = () => {
       try{
           await axiosApi.delete(`/usuarios/${uid}` ) 
           let usuarios = users.usuarios.filter(el => el.uid !== uid)
-          dispatch( userDeleteView({total: usuarios.length, usuarios}) )
+          dispatch( userDeleteView({total: usuarios.length, usuarios, alert:uid}) )
       } catch (error) {
           errorConsoleCatch(error)
        /*  setTimeout(() => {
@@ -61,6 +61,7 @@ export const useUsers = () => {
     dataUsersGet,
     users,
     deleteUser,
-    switchUser
+    switchUser,
+    errorMessage
   }
 }

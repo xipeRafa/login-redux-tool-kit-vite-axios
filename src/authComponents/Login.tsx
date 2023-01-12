@@ -25,11 +25,11 @@ export const Login = () => {
 
     const loginSubmit = (event: any) => {
         event.preventDefault();
-
+ 
         if( loginEmail==='' || loginPassword==='' ){
             Swal.fire('Campo vacio', 'llenar todo por favor', 'error');
             return
-        }
+        }  
 
         startLogin({ correo: loginEmail, password: loginPassword });
          

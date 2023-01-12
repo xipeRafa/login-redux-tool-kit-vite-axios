@@ -1,4 +1,6 @@
 
+
+import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +18,7 @@ const registerFormFields = {
 
 export const SignUp = () => {
 
-    const { startRegister } = useAuth();
+    const { startRegister, errorMessage } = useAuth();
 
     const { registerEmail, registerName, registerPassword, registerPassword2, 
             onInputChange: onRegisterInputChange } = useForm(registerFormFields);
@@ -35,12 +37,17 @@ export const SignUp = () => {
         if (registerPassword !== registerPassword2) {
             Swal.fire('Error en registro', 'Contraseñas no son iguales', 'error');
             return;
-        }
+        } 
 
         startRegister({ nombre: registerName, correo: registerEmail, password: registerPassword });
         
     }
 
+    useEffect(() => {
+        if (errorMessage !== undefined) {
+            Swal.fire('Error en la autenticación --- Register', errorMessage, 'error');
+        }
+    }, [errorMessage]) // al mandar un onLogout errorMessage CAMBIA
 
 
 
