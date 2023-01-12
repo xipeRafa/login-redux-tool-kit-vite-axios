@@ -16,7 +16,6 @@ export const Categorias = () => {
 
     const { dataCategoriasGet, categorias, deleteCategoria, switchCategoria } = useCategorias()
 
-    console.log('categorias ===>>>', categorias)
 
     useEffect(() => {
         dataCategoriasGet()
@@ -35,7 +34,7 @@ export const Categorias = () => {
     
   return (
     <div>
-        
+
         <h3 style={{marginLeft:"50px"}}>Categorias</h3>
 
         {categorias.categorias?.map((el, i)=>(

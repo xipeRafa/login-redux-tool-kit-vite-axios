@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useAuth, } from '../hooks/useAuth';
-import { useForm } from '../hooks/useForm';
+import { Link } from 'react-router-dom';
+
+import { useAuth, useForm } from '../hooks';
 import './login.css';
-import { Link, useLocation } from 'react-router-dom';
 
 type loginFormFields = {
     loginEmail: String,
@@ -18,26 +18,30 @@ const loginFormFields:loginFormFields = {
 
 export const Login = () => {
 
-    let location = useLocation();
-
-    const { startLogin, errorMessage, status } = useAuth();
+    const { startLogin, errorMessage } = useAuth();
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
 
+
     const loginSubmit = (event: any) => {
         event.preventDefault();
+
+        if( loginEmail==='' || loginPassword==='' ){
+            Swal.fire('Campo vacio', 'llenar todo por favor', 'error');
+            return
+        }
+
         startLogin({ correo: loginEmail, password: loginPassword });
-
-
-                location.pathname = '/users' 
          
     }
 
+
+
     useEffect(() => {
         if (errorMessage !== undefined) {
-            Swal.fire('Error en la autenticación', errorMessage, 'error');
+            Swal.fire('Error en la autenticación --- Login', errorMessage, 'error');
         }
-    }, [errorMessage])
+    }, [errorMessage]) // al mandar un onLogout errorMessage CAMBIA
 
 
 
@@ -73,7 +77,7 @@ export const Login = () => {
                         </div>
                     </form>
 
-                    <Link to="/api/usuarios">Register</Link>
+                    <Link to="/auth/register">Register</Link>
 
                 </div>
             </div>

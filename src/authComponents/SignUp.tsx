@@ -1,9 +1,9 @@
 
 import Swal from 'sweetalert2';
-import { useAuth } from '../hooks/useAuth';
-import { useForm } from '../hooks/useForm';
+import { Link } from 'react-router-dom';
+
+import { useAuth, useForm } from '../hooks';
 import './login.css';
-import { Link, useLocation } from 'react-router-dom';
 
 const registerFormFields = {
     registerName: '',
@@ -16,19 +16,19 @@ const registerFormFields = {
 
 export const SignUp = () => {
 
-    let location = useLocation();
-
-    const { startRegister,  status } = useAuth();
+    const { startRegister } = useAuth();
 
     const { registerEmail, registerName, registerPassword, registerPassword2, 
             onInputChange: onRegisterInputChange } = useForm(registerFormFields);
+
+
 
 
     const registerSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
         if( registerEmail==='' || registerName==='' || registerPassword==='' || registerPassword2==='' ){
-            console.log('empty fields')
+            Swal.fire('Campo vacio', 'llenar todo por favor', 'error');
             return
         }
 
@@ -38,12 +38,10 @@ export const SignUp = () => {
         }
 
         startRegister({ nombre: registerName, correo: registerEmail, password: registerPassword });
-
-
-                location.pathname = '/users' 
-       
-     
+        
     }
+
+
 
 
     return (
@@ -103,7 +101,7 @@ export const SignUp = () => {
                         </div>
                     </form>
 
-                    <Link to="/api/auth/login">Login</Link>
+                    <Link to="/auth/login">Login</Link>
 
                 </div>
             </div>

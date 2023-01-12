@@ -5,12 +5,14 @@ import { errorConsoleCatch } from '../helpers'
 import axiosApi from '../api/api';
 
 export const useAuth = () => {
-    
+
     let location = useLocation();
 
     const { status, user, errorMessage } = useSelector(state => state.authSlice);
 
     const dispatch = useDispatch();
+
+
 
 
     function saveLsData(DATA: { usuario: { nombre: string; uid: string; }; token: string; }){
@@ -20,6 +22,8 @@ export const useAuth = () => {
     }
 
 
+
+
     const startLogin = async ({ correo, password }) => {
 
         dispatch(onChecking());
@@ -27,11 +31,12 @@ export const useAuth = () => {
         try {
             const { data } = await axiosApi.post('/auth/login', { correo, password });
             saveLsData(data)
-            dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
 
+            dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
+            location.pathname = '/productos' 
         } catch (error) {
-            errorConsoleCatch(error)
-            dispatch(onLogout('Credenciales incorrectas'));
+            errorConsoleCatch(error) 
+            dispatch(onLogout('Credenciales incorrectas --- useAuth'));
            /*  setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 1000); */
@@ -50,6 +55,7 @@ export const useAuth = () => {
             saveLsData(data)
             console.log(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
+            location.pathname = '/productos' 
         } catch (error) {
             errorConsoleCatch(error)
             dispatch(onLogout(error.response.data.errors[0] || '--- useAuth'));
@@ -82,7 +88,7 @@ export const useAuth = () => {
     const startLogout = () => {
         localStorage.clear();
         dispatch(onLogout());
-        location.pathname = '/api/auth/login'
+        location.pathname = '/auth/login'
     }
 
 
