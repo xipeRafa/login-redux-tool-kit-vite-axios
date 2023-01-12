@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { productosDataPush, clearErrorMessageProductos, productoDeleteView, switchProductoView } from '../store/productosSlice';
+import { productosDataPush, clearErrorMessageProductos, productoDeleteView, switchProductoView } from '../store/slices/productosSlice';
 import axiosApi from '../api/api';
 
 export const useProductos = () => {

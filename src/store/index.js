@@ -1,8 +1,8 @@
 
 
-export * from './authSlice';
+export * from './slices/authSlice';
 
 export * from './store';
 
-export * from './usersSlice';
-export * from './productosSlice';
+export * from './slices/usersSlice';
+export * from './slices/productosSlice';

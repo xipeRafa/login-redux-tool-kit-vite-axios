@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { usersDataPush, clearErrorMessageUsers, userDeleteView, switchUserView } from '../store/usersSlice';
+import { usersDataPush, clearErrorMessageUsers, userDeleteView, switchUserView } from '../store/slices/usersSlice';
 import axiosApi from '../api/api';
 
 export const useUsers = () => {

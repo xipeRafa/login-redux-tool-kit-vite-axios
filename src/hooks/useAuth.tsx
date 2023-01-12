@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store/authSlice'
+import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store/slices/authSlice'
 import { useLocation } from 'react-router-dom';
 import axiosApi from '../api/api';
 
