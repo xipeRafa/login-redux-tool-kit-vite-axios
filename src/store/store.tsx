@@ -3,6 +3,8 @@ import { authSlice } from './slices/authSlice';
 import { usersSlice } from './slices/usersSlice';
 import { productosSlice } from './slices/productosSlice';
 
+import { categoriasSlice } from './slices/categoriasSlice';
+
 
 export const store = configureStore({
 
@@ -10,6 +12,7 @@ export const store = configureStore({
         authSlice: authSlice.reducer,
         usersSlice: usersSlice.reducer,
         productosSlice: productosSlice.reducer,
+        categoriasSlice: categoriasSlice.reducer,
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })

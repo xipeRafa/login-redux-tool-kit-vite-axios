@@ -9,6 +9,7 @@ import { Users } from '../components/Users';
 import { Productos } from '../components/Productos';
 
 import { useAuth } from '../hooks/useAuth';
+import { Categorias } from '../components/Categorias';
 
 
 const AppRouter = () => {
@@ -33,9 +34,10 @@ const AppRouter = () => {
             <Route path="/api/auth/login" element={<Login />} />
             <Route path="/api/usuarios" element={<SignUp />} />
 
-            <Route path="/users" element={<Users />} />
-            <Route path="/productos" element={<Productos />} />
-             <Route path="/*"   element={<Navigate to="api/auth/login" />} /> 
+            <Route path="/categorias" element={<Categorias />} />
+            <Route path="/users"      element={<Users />} />
+            <Route path="/productos"  element={<Productos />} />
+            <Route path="/*"          element={<Navigate to="api/auth/login" />} /> 
         </Routes>
     )
 }

@@ -18,7 +18,9 @@ export const useAuth = () => {
 
 
     const startLogin = async ({ correo, password }) => {
+
         dispatch(onChecking());
+        
         try {
             const { data } = await axiosApi.post('/auth/login', { correo, password });
             saveLsData(data)
@@ -33,9 +35,10 @@ export const useAuth = () => {
     }
 
 
-    const startRegister = async ({ nombre, correo, password}) => {
-        console.log('try Register', nombre, correo, password)
+    const startRegister = async ({nombre, correo, password}) => {
+
         dispatch(onChecking());
+
         try {
             const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
             saveLsData(data)
@@ -47,6 +50,8 @@ export const useAuth = () => {
             console.log('error.response.data.errors[0] :>> ', error.response.data.errors[0]);
             console.log('error.response.data.errors[1] :>> ', error.response.data.errors[1]);
             console.log('error.response.data.errors[2] :>> ', error.response.data.errors[2]);
+            console.log('error.response.data.errors[3] :>> ', error.response.data.errors[4]);
+
 
             console.log('error.response.data.errors :>> ', error.response.data.errors);
 

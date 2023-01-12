@@ -18,6 +18,8 @@ export const Nav = () => {
             <span>
               <Link style={{color:"white"}}  to="/users">users</Link>
               <Link style={{color:"white"}} className='mx-5' to="/productos">productos</Link>
+              <Link style={{color:"white"}} className='mx-5' to="/categorias">categorias</Link>
+
             </span>
 
             <Link className="btn btn-outline-danger" to="/api/auth/login" onClick={ startLogout }>
