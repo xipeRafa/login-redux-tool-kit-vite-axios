@@ -3,7 +3,7 @@ import React, {useEffect} from 'react'
 import {useCategorias} from '../hooks/useCategorias'
 
 export const Categorias = () => {
-    
+
     const character = {
         display: "block",
         border: "2px solid salmon",
@@ -40,11 +40,11 @@ export const Categorias = () => {
             <div key={i+'!@#'} style={character}>
 
                 <p>Nombre: {el.nombre}</p>
-                <p>State: {el.estado ? 'true' : 'false'}</p>
-                <p>toggle: {el.toggle ? 'true' : 'false'}</p>
+                <p>State:  {el.estado ? ' true' : ' false'}</p>
+                <p>toggle: {el.toggle ? ' true' : ' false'}</p>
 
                 <button onClick={()=>handleDelete(el._id)}>Eliminar</button>
-                <button onClick={()=>handleSwitch(el._id)}>toggle</button> 
+                <button onClick={()=>handleSwitch(el._id)}>Toggle</button> 
             </div>
         ))} 
     </div>

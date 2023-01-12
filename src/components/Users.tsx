@@ -37,16 +37,19 @@ export const Users = () => {
             <div key={i+'!@#'} style={character}>
 
                 <p>Nombre: {el.nombre}</p>
-                <p>{el.correo}</p>
-                <p>State: {el.estado ? 'true' : 'false'}</p>
-                <p>Imagen: {el.img ? 'Con img' : 'Sin img'}</p>
-                <p>{el.rol}</p>
-                <p>Google: {el.google ? 'true' : 'false'}</p>
-                <p>id: {el.uid}</p>
-                <p>toggle: {el.toggle ? 'true' : 'false'}</p>
+                <p>Mail:   {el.correo}</p>
+
+                <p>Role:   {el.rol}</p>
+                <p>id:     {el.uid}</p>
+
+                <p>State:  {el.estado ? ' true' : ' false'}</p>
+                <p>Google: {el.google ? ' true' : ' false'}</p>
+
+                <p>Imagen: {el.img    ? ' Con img' : 'Sin img'}</p>
+                <p>Toggle: {el.toggle ? ' true' : ' false'} </p>
 
                 <button onClick={()=>handleDelete(el.uid)}>Eliminar</button>
-                <button onClick={()=>handleSwitch(el.uid)}>toggle</button>
+                <button onClick={()=>handleSwitch(el.uid)}>Toggle</button>
             </div>
         ))}
     </div>
