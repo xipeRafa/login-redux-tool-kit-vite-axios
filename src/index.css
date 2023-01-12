@@ -1,5 +1,13 @@
 
+html {
+  background-color: transparent;
+  min-height: 100%;
+  position: relative;
+}
+
 body{
+  margin: 0;
+  margin-bottom: 300px;
   background-color: rgb(220, 220, 220);
 }
 
@@ -140,3 +148,4 @@ a {
 a:hover {
   color: rgb(37, 34, 34);
 }
+

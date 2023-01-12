@@ -35,7 +35,9 @@ export const Categorias = () => {
     
   return (
     <div>
+        
         <h3 style={{marginLeft:"50px"}}>Categorias</h3>
+
         {categorias.categorias?.map((el, i)=>(
             <div key={i+'!@#'} style={character}>
 
@@ -45,8 +47,10 @@ export const Categorias = () => {
 
                 <button onClick={()=>handleDelete(el._id)}>Eliminar</button>
                 <button onClick={()=>handleSwitch(el._id)}>Toggle</button> 
+
             </div>
         ))} 
+
     </div>
   )
 }

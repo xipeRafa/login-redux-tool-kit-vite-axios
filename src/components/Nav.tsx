@@ -19,13 +19,14 @@ export const Nav = () => {
               <Link style={{color:"white"}}  to="/users">users</Link>
               <Link style={{color:"white"}} className='mx-5' to="/productos">productos</Link>
               <Link style={{color:"white"}} className='mx-5' to="/categorias">categorias</Link>
-
             </span>
 
             <Link className="btn btn-outline-danger" to="/api/auth/login" onClick={ startLogout }>
               <i className="fas fa-sign-out-alt"></i>salir
             </Link>
-          </div>}
+          </div>
+        }
+
     </div>
   )
 }

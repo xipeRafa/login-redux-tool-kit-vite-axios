@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store/slices/authSlice'
 import { useLocation } from 'react-router-dom';
+import { errorConsoleCatch } from '../helpers'
 import axiosApi from '../api/api';
 
 export const useAuth = () => {
+    
     let location = useLocation();
 
     const { status, user, errorMessage } = useSelector(state => state.authSlice);
+
     const dispatch = useDispatch();
 
 
@@ -27,12 +30,15 @@ export const useAuth = () => {
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
 
         } catch (error) {
+            errorConsoleCatch(error)
             dispatch(onLogout('Credenciales incorrectas'));
-            setTimeout(() => {
+           /*  setTimeout(() => {
                 dispatch(clearErrorMessage());
-            }, 1000);
+            }, 1000); */
         }
     }
+
+
 
 
     const startRegister = async ({nombre, correo, password}) => {
@@ -45,16 +51,7 @@ export const useAuth = () => {
             console.log(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
         } catch (error) {
-            console.log('errorRegister :>> ', error);
-            console.log('error.response.data?.msg :>> ', error.response.data?.msg);
-            console.log('error.response.data.errors[0] :>> ', error.response.data.errors[0]);
-            console.log('error.response.data.errors[1] :>> ', error.response.data.errors[1]);
-            console.log('error.response.data.errors[2] :>> ', error.response.data.errors[2]);
-            console.log('error.response.data.errors[3] :>> ', error.response.data.errors[4]);
-
-
-            console.log('error.response.data.errors :>> ', error.response.data.errors);
-
+            errorConsoleCatch(error)
             dispatch(onLogout(error.response.data.errors[0] || '--- useAuth'));
             /* setTimeout(() => {
                 dispatch(clearErrorMessage());
@@ -63,10 +60,11 @@ export const useAuth = () => {
     }
 
 
-     const checkLogin = async () => {
+
+
+    const checkLogin = async () => {
         const token = localStorage.getItem('token');
         if (!token){ 
-            location.pathname = '/api/auth/login'
             return dispatch(onLogout())
         }
         
@@ -74,6 +72,7 @@ export const useAuth = () => {
             const { data } = await axiosApi.get('auth/renew');
             dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
         } catch (error) {
+            errorConsoleCatch(error)
             localStorage.clear();
             dispatch(onLogout());
         }
@@ -83,6 +82,7 @@ export const useAuth = () => {
     const startLogout = () => {
         localStorage.clear();
         dispatch(onLogout());
+        location.pathname = '/api/auth/login'
     }
 
 

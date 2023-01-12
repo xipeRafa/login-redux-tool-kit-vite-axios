@@ -1,15 +1,10 @@
 
-import { useEffect, useState } from 'react'; 
+import { useEffect } from 'react'; 
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Login } from '../auth/Login';
-import { SignUp } from '../auth/SignUp';
-
-import { Users } from '../components/Users';
-import { Productos } from '../components/Productos';
-
+import { Login, SignUp } from '../authComponents';
+import { Users, Productos, Categorias } from '../components';
 import { useAuth } from '../hooks/useAuth';
-import { Categorias } from '../components/Categorias';
 
 
 const AppRouter = () => {
@@ -32,12 +27,13 @@ const AppRouter = () => {
 
         <Routes>
             <Route path="/api/auth/login" element={<Login />} />
-            <Route path="/api/usuarios" element={<SignUp />} />
+            <Route path="/api/usuarios"   element={<SignUp />} />
 
             <Route path="/categorias" element={<Categorias />} />
             <Route path="/users"      element={<Users />} />
             <Route path="/productos"  element={<Productos />} />
-            <Route path="/*"          element={<Navigate to="api/auth/login" />} /> 
+
+            <Route path="/*" element={<Navigate to="api/auth/login" />} /> 
         </Routes>
     )
 }

@@ -36,7 +36,7 @@ export const Users = () => {
         {users.usuarios?.map((el, i)=>(
             <div key={i+'!@#'} style={character}>
 
-                <p>Nombre: {el.nombre}</p>
+                <h3>Nombre: {el.nombre}</h3>
                 <p>Mail:   {el.correo}</p>
 
                 <p>Role:   {el.rol}</p>
@@ -50,6 +50,7 @@ export const Users = () => {
 
                 <button onClick={()=>handleDelete(el.uid)}>Eliminar</button>
                 <button onClick={()=>handleSwitch(el.uid)}>Toggle</button>
+
             </div>
         ))}
     </div>

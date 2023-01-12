@@ -33,7 +33,7 @@ export const Productos = () => {
     
   return (
     <div>
-        <h3 style={{marginLeft:"50px"}}>productos</h3>
+        <h3 style={{marginLeft:"50px"}}>Productos</h3>
 
           {productos.productos?.map((el, i)=>(
             <div key={i+'!@#'} style={character}>
