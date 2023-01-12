@@ -17,7 +17,7 @@ export const Nav = () => {
           <div>
             <span>
               <Link style={{color:"white"}}  to="/users">users</Link>
-              <Link style={{color:"white"}} className='mx-5' to="/img2">img2</Link>
+              <Link style={{color:"white"}} className='mx-5' to="/productos">productos</Link>
             </span>
 
             <Link className="btn btn-outline-danger" to="/api/auth/login" onClick={ startLogout }>

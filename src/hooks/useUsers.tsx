@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+
 import { useDispatch, useSelector } from 'react-redux';
 import { usersDataPush, clearErrorMessageUsers, userDeleteView, switchUserView } from '../store/usersSlice';
 import axiosApi from '../api/api';
@@ -9,9 +9,6 @@ export const useUsers = () => {
 
   const { users, errorMessage } = useSelector(state => state.usersSlice);
 
-/*    const [usersState, setUsersState]=useState([])  
-
-  console.log('usersState:', usersState) */
     const dispatch = useDispatch();
  
     const dataUsersGet = async () => {
