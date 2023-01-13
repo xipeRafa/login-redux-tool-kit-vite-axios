@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
-import { useAuth, useForm } from '../hooks';
+import {useForm} from '../helpers';
 import './login.css';
 
 const registerFormFields = {
@@ -16,9 +16,9 @@ const registerFormFields = {
 
 
 
-export const SignUp = () => {
+export const SignUp = ({ startRegister, errorMessage }) => {
 
-    const { startRegister, errorMessage } = useAuth();
+
 
     const { registerEmail, registerName, registerPassword, registerPassword2, 
             onInputChange: onRegisterInputChange } = useForm(registerFormFields);

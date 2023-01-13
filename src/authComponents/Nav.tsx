@@ -1,15 +1,12 @@
-import { useAuth} from "../hooks/useAuth"
 import { Link } from 'react-router-dom';
 
-export const Nav = () => {
-
-  const { startLogout, user, status } = useAuth();
+export const Nav = ({ startLogout, user, status }) => {
 
   return (
     <div className="navbar navbar-dark bg-black mb-4 px-4">
+
         <span className="navbar-brand">
-            <i className="fas fa-calendar-alt"></i>
-            &nbsp;
+            <i className="fas fa-calendar-alt"></i>&nbsp;
             { user.nombre }
         </span>
 

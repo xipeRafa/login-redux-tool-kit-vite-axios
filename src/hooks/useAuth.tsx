@@ -53,15 +53,11 @@ export const useAuth = () => {
         try {
             const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
             saveLsData(data)
-            console.log(data)
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
             location.pathname = '/productos' 
         } catch (error) {
             errorConsoleCatch(error)
             dispatch(onLogout(error.response.data.errors[0].msg || '--- useAuth'));
-            /* setTimeout(() => {
-                dispatch(clearErrorMessage());
-            }, 30000); */
         }
     }
 

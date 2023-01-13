@@ -11,7 +11,6 @@ export const useCategorias = () => {
  
     const dataCategoriasGet = async () => {
         const { data } = await axiosApi.get('/categorias')
-        console.log(data)
         dispatch( categoriasDataPush(data));
     }
 

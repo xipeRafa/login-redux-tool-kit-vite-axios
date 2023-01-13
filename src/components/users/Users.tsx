@@ -1,11 +1,14 @@
+
 import React, {useEffect} from 'react'
 import Swal from 'sweetalert2';
+import {PostForm} from './PostForm';
+import {useUsers} from '../../hooks'
 
-import {useUsers} from '../hooks/useUsers'
+
 
 export const Users = () => {
 
-    const character = {
+    const characterCSS = {
         display: "block",
         border: "2px solid salmon",
         padding: "10px",
@@ -15,8 +18,10 @@ export const Users = () => {
         backgroundColor:"lightgray"
     }
 
-    const { dataUsersGet, users, deleteUser, switchUser, errorMessage } = useUsers()
+    const { dataUsersGet, users, deleteUser, postUser , switchUser, 
+        errorMessage, setInfoToForm, editMode, newDataEdit, defaultModeEdith } = useUsers()
 
+ 
     useEffect(() => {
         dataUsersGet()
     }, [])
@@ -36,13 +41,25 @@ export const Users = () => {
         switchUser(ID)
     }
 
+    const handleEdith =(el)=>{
+        setInfoToForm(el)
+    }
+
 
     
   return (
     <div>
+        <PostForm 
+            postUser={postUser} 
+            editMode={editMode} 
+            newDataEdit={newDataEdit} 
+            defaultModeEdith={defaultModeEdith}
+        />
+
         <h3 style={{marginLeft:"50px"}}>Usuarios</h3>
+
         {users.usuarios?.map((el, i)=>(
-            <div key={i+'!@#'} style={character}>
+            <div key={i+'!@#'} style={characterCSS}>
 
                 <h3>Nombre: {el.nombre}</h3>
                 <p>Mail:   {el.correo}</p>
@@ -58,9 +75,11 @@ export const Users = () => {
 
                 <button onClick={()=>handleDelete(el.uid)}>Eliminar</button>
                 <button onClick={()=>handleSwitch(el.uid)}>Toggle</button>
+                <button onClick={()=>handleEdith(el)}>Edit</button>
 
             </div>
         ))}
+
     </div>
   )
 }

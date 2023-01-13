@@ -7,6 +7,7 @@ export const usersSlice = createSlice({
     initialState: {
         users: [],
         errorMessage: undefined,
+        editMode: undefined
     },
 
     reducers: {
@@ -17,13 +18,17 @@ export const usersSlice = createSlice({
         clearErrorMessageUsers: (state) => {
             state.errorMessage = undefined;
         },
+        editUserView:(state, {payload})=>{
+            state.editMode=payload
+        },
+        defaultEditMode:(state)=>{
+            state.editMode=undefined
+        },
         userDeleteView: (state, { payload }) => {
-            console.log('payloadDelete', payload)
             state.users = payload;
             state.errorMessage = `Usuario ${payload.alert} fue borrado`;
         },
         switchUserView:(state, {payload})=>{
-            console.log('payloadToggle', payload)
             state.users = payload
             state.errorMessage = undefined;
         }
@@ -32,4 +37,4 @@ export const usersSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { usersDataPush, clearErrorMessageUsers, userDeleteView, switchUserView } = usersSlice.actions;
+export const { usersDataPush, clearErrorMessageUsers, userDeleteView, switchUserView, editUserView, defaultEditMode } = usersSlice.actions;

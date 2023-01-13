@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from 'react';
 export const useForm = (initialForm = {}, formValidations = {}) => {
 
     const [formState, setFormState] = useState(initialForm);
-    /*    console.log('formState:', formState) */
+
     const [formValidation, setFormValidation] = useState({});
-    /*   console.log('formValidation:', formValidation) */
+
 
     useEffect(() => {
         createValidators();

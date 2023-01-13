@@ -18,12 +18,10 @@ export const productosSlice = createSlice({
             state.errorMessage = undefined;
         },
         productoDeleteView: (state, { payload }) => {
-            console.log('payloadDelete', payload)
             state.productos = payload;
             state.errorMessage = undefined;
         },
         switchProductoView:(state, {payload})=>{
-            console.log('payloadToggle', payload)
             state.productos = payload
             state.errorMessage = undefined;
         }

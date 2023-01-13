@@ -1,2 +1,7 @@
 export * from './useAuth';
-export * from './useForm';
+
+export * from './useUsers';
+
+export * from './useProductos';
+
+export * from './useCategorias';

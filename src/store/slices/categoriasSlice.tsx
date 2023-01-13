@@ -18,12 +18,10 @@ export const categoriasSlice = createSlice({
             state.errorMessage = undefined;
         },
         categoriaDeleteView: (state, { payload }) => {
-            console.log('payloadDelete', payload)
             state.categorias = payload;
             state.errorMessage = undefined;
         },
         switchCategoriaView:(state, {payload})=>{
-            console.log('payloadToggle', payload)
             state.categorias = payload
             state.errorMessage = undefined;
         }

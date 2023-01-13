@@ -16,13 +16,9 @@ export const useProductos = () => {
     const dataProductosGet = async () => {
         try{
             const { data } = await axiosApi.get('/productos')
-            console.log(data)
             dispatch( productosDataPush(data));
         } catch (error) {
             errorConsoleCatch(error)
-           /*  setTimeout(() => {
-                dispatch(clearErrorMessage());
-            }, 1000); */
         }
     }
 
@@ -36,11 +32,8 @@ export const useProductos = () => {
             dispatch( productoDeleteView({total: productos2.length, productos:productos2}) )
         } catch (error) {
             errorConsoleCatch(error)
-         /*  setTimeout(() => {
-              dispatch(clearErrorMessage());
-          }, 1000); */
-      }
-   }
+        }
+    }
 
 
 
@@ -52,9 +45,6 @@ export const useProductos = () => {
           dispatch( switchProductoView({total: data.productos.length, productos:data.productos }) )
       } catch (error) {
           errorConsoleCatch(error)
-         /*  setTimeout(() => {
-              dispatch(clearErrorMessage());
-          }, 1000); */
       }
   }
 

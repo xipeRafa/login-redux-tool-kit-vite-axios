@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 
-import {useProductos} from '../hooks/useProductos'
+import {useProductos} from '../hooks'
 
 export const Productos = () => {
 

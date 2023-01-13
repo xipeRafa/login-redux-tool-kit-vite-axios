@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
-import { useAuth, useForm } from '../hooks';
+import { useForm } from '../helpers';
 import './login.css';
 
 type loginFormFields = {
@@ -16,13 +16,14 @@ const loginFormFields:loginFormFields = {
 }
 
 
-export const Login = () => {
+export const Login = ({ startLogin, errorMessage }) => {
 
-    const { startLogin, errorMessage } = useAuth();
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
 
 
+
+    
     const loginSubmit = (event: any) => {
         event.preventDefault();
  
@@ -50,7 +51,9 @@ export const Login = () => {
         <div className="container login-container">
             <div className="row">
                 <div className="col-md-6 login-form-1">
+
                     <h3>Ingreso</h3>
+
                     <form onSubmit={loginSubmit}>
                         <div className="form-group mb-2">
                             <input

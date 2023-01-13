@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 
-import {useCategorias} from '../hooks/useCategorias'
+import {useCategorias} from '../hooks'
 
 export const Categorias = () => {
 
