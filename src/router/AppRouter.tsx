@@ -29,8 +29,8 @@ const AppRouter = () => {
         <div>
             <Nav startLogout={startLogout} user={user} status={status}/>
         <Routes>
-            <Route path="/auth/login"    element={<Login startLogin={startLogin} errorMessage={errorMessage} />} />
-            <Route path="/auth/register" element={<SignUp startRegister={startRegister}  errorMessage={errorMessage} />} />
+            <Route path="/auth/login"    element={<Login  startLogin={startLogin}       errorMessage={errorMessage} />} />
+            <Route path="/auth/register" element={<SignUp startRegister={startRegister} errorMessage={errorMessage} />} />
 
             <Route path="/categorias" element={<Categorias />} />
             <Route path="/users"      element={<Users />} />

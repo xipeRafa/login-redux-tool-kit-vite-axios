@@ -40,7 +40,7 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) =>
 
     const handleCancelEdit =()=>{
         defaultModeEdith()
-        setName2({nameUser: '',email: '',password:''})
+        setName2({nameUser: '', email: '', password:''})
 
     }
 
@@ -67,7 +67,7 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) =>
                 <div className="form-group mb-2">
                     <input
                         className="form-control"
-                        placeholder="Correemail"
+                        placeholder="eMail"
                         name="email"
                         value={email}
                         onChange={onPostInputChange}
@@ -78,7 +78,7 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) =>
                 <div className="form-group mb-2">
                     <input
                         className="form-control"
-                        placeholder="Contraseña"
+                        placeholder="password"
                         name="password"
                         value={password}
                         onChange={onPostInputChange}
@@ -91,7 +91,7 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) =>
                         value={ editMode ? 'Edit User':"New user"} />
 
                     {editMode &&    
-                        <input onClick={handleCancelEdit} type="button" className="editButton mt-5" value='Cancel Edit' />
+                        <input type="button" onClick={handleCancelEdit} className="editButton mt-5" value={ editMode ? 'Cancel Edition':'oko'} />
                     }
                 </div>
 

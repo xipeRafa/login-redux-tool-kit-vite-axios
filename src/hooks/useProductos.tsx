@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { errorConsoleCatch } from "../helpers";
+import { errorConsoleCatch, toggleExplorer } from "../helpers";
 import { productosDataPush, clearErrorMessageProductos, productoDeleteView, switchProductoView } from '../store/slices/productosSlice';
 import axiosApi from '../api/api';
 
@@ -41,8 +41,8 @@ export const useProductos = () => {
   const switchProducto = async (ID:String) => {
       try{
           await axiosApi.patch(`/productos/toggle/${ID}`) 
-          const { data } = await axiosApi.get('/productos')
-          dispatch( switchProductoView({total: data.productos.length, productos:data.productos }) )
+          const { newArray } = toggleExplorer(ID, productos.productos, 'disponible')
+          dispatch( switchProductoView({total: newArray.length, productos:newArray }) )
       } catch (error) {
           errorConsoleCatch(error)
       }
@@ -59,3 +59,5 @@ export const useProductos = () => {
   }
 
 }
+
+

@@ -70,7 +70,7 @@ export const Users = () => {
                 <p>State:  {el.estado ? ' true' : ' false'}</p>
                 <p>Google: {el.google ? ' true' : ' false'}</p>
 
-                <p>Imagen: {el.img    ? ' Con img' : 'Sin img'}</p>
+                <p>Img:    {el.img  ? 'Con img' : 'Sin img'}</p>
                 <p>Toggle: {el.toggle ? ' true' : ' false'} </p>
 
                 <button onClick={()=>handleDelete(el.uid)}>Eliminar</button>
