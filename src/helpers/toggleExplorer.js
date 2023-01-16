@@ -3,16 +3,18 @@
 // const copyOfDynosAndFriends = JSON.parse(JSON.stringify(dynosAndFriends)) */
 
 
-export const toggleExplorer =(ID, array, key)=>{
+export const toggleExplorer =(objId, array, ketToSwitch)=>{
 
     const arrString = JSON.stringify(array)
     const newArray =  JSON.parse(arrString)
 
-    newArray.map(el => el.uid === ID ? el[key] = !el[key] 
-                      :el._id === ID ? el[key] = !el[key]
-                      :el) 
+    let keyId = Object.keys(objId)[0]
+    let valueId = Object.values(objId)[0]
+    
 
-    return { newArray }
+     newArray.map(el => el[keyId] === valueId ? el[ketToSwitch] = !el[ketToSwitch] :el) 
+
+    return { newArray }  
 
 }
 

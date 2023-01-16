@@ -53,7 +53,7 @@ export const useUsers = () => {
   const newDataEdit = async (nombre, correo, uid) => {
     try {
         await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
-        const { newArray } = editExplorer(uid, users.usuarios, {nombre}, {correo})
+        const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
         dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
     } catch (error) {
         errorConsoleCatch(error)
@@ -85,11 +85,11 @@ export const useUsers = () => {
 
 
 
-  const switchUser = async (ID: String) => {
+  const switchUser = async (uid: String) => {
     try {
-        await axiosApi.patch(`/usuarios/toggle/${ID}`)
-        const { newArray } = toggleExplorer(ID, users.usuarios, 'toggle')
-        dispatch(switchUserView({ total: newArray.length, usuarios:newArray })) 
+        await axiosApi.patch(`/usuarios/toggle/${uid}`)
+         const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
+         dispatch(switchUserView({ total: newArray.length, usuarios:newArray }))  
     } catch (error) {
         errorConsoleCatch(error)
     }

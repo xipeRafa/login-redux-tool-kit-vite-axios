@@ -31,7 +31,6 @@ export const usersSlice = createSlice({
         switchUserView:(state, {payload})=>{
             state.users = payload
             state.errorMessage = undefined;
-            //console.log('state.users :>> ', state.users);
         }
     }
 });

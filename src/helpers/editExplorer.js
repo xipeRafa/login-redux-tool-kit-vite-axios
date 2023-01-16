@@ -3,10 +3,13 @@
 // and always use the key name like parameter name
 
 
-export function editExplorer(ID, array){
+export function editExplorer(objId, array){
 
      const arrString = JSON.stringify(array)
      const newArray =  JSON.parse(arrString)
+
+     let keyId = Object.keys(objId)[0]
+     let valueId = Object.values(objId)[0]
 
      for (let index = 2; index < arguments.length; index++) {
         let arg = arguments[index];
@@ -15,9 +18,7 @@ export function editExplorer(ID, array){
 
         let value = Object.values(arg)[0]
 
-        newArray.map(el => el.uid === ID ? el[key] = value 
-                          :el._id === ID ? el[key] = value
-                          :el) 
+        newArray.map(el => el[keyId] === valueId ? el[key] = value :el) 
      }
 
      return { newArray }   

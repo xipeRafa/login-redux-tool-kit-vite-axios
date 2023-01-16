@@ -37,8 +37,8 @@ export const Users = () => {
         deleteUser(uid)
     }
 
-    const handleSwitch=(ID)=>{
-        switchUser(ID)
+    const handleSwitch=(uid)=>{
+        switchUser(uid)
     }
 
     const handleEdith =(el)=>{

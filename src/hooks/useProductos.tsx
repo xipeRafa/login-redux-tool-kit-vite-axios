@@ -17,6 +17,7 @@ export const useProductos = () => {
         try{
             const { data } = await axiosApi.get('/productos')
             dispatch( productosDataPush(data));
+            console.log('data :>> ', data);
         } catch (error) {
             errorConsoleCatch(error)
         }
@@ -25,10 +26,10 @@ export const useProductos = () => {
 
 
 
-    const deleteProducto = async (_id:String) => {
+    const deleteProducto = async (pid:String) => {
         try{
-            await axiosApi.delete(`/productos/${_id}` ) 
-            let productos2 = productos.productos.filter(el => el._id !== _id)
+            await axiosApi.delete(`/productos/${pid}` ) 
+            let productos2 = productos.productos.filter(el => el.pid !== pid)
             dispatch( productoDeleteView({total: productos2.length, productos:productos2}) )
         } catch (error) {
             errorConsoleCatch(error)
@@ -38,10 +39,10 @@ export const useProductos = () => {
 
 
 
-  const switchProducto = async (ID:String) => {
+  const switchProducto = async (pid:String) => {
       try{
-          await axiosApi.patch(`/productos/toggle/${ID}`) 
-          const { newArray } = toggleExplorer(ID, productos.productos, 'disponible')
+          await axiosApi.patch(`/productos/toggle/${pid}`) 
+          const { newArray } = toggleExplorer({pid}, productos.productos, 'disponible')
           dispatch( switchProductoView({total: newArray.length, productos:newArray }) )
       } catch (error) {
           errorConsoleCatch(error)

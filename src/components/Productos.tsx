@@ -21,12 +21,12 @@ export const Productos = () => {
     }, [])
 
 
-    const handleDelete=(uid:String)=>{
-        deleteProducto(uid)
+    const handleDelete=(pid)=>{
+        deleteProducto(pid)
     }
 
-    const handleSwitch=(ID)=>{
-        switchProducto(ID)
+    const handleSwitch=(pid)=>{
+        switchProducto(pid)
     }
 
 
@@ -47,12 +47,12 @@ export const Productos = () => {
                 <p>Imagen: {el.img ? 'Con img' : 'Sin img'}</p>
                 <p>Precio: {el.precio}</p>  
 
-                <p>id: {el._id}</p>
+                <p>id: {el.pid}</p>
                 <p>Descripcion: {el.descripcion}</p>
                 <p>Disponible:{el.disponible ? ' true' : ' false'}</p> 
 
-                <button onClick={()=>handleDelete(el._id)}>Eliminar</button>
-                <button onClick={()=>handleSwitch(el._id)}>Toggle</button>
+                <button onClick={()=>handleDelete(el.pid)}>Eliminar</button>
+                <button onClick={()=>handleSwitch(el.pid)}>Toggle</button>
             </div>
         ))}  
 
