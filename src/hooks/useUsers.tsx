@@ -53,6 +53,7 @@ export const useUsers = () => {
   const newDataEdit = async (nombre, correo, uid) => {
     try {
         await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
+        
         const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
         dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
     } catch (error) {

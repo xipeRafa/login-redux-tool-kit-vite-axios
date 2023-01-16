@@ -1,6 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { categoriasDataPush, clearErrorMessageCategorias, categoriaDeleteView, switchCategoriaView } from '../store/slices/categoriasSlice';
+import { errorConsoleCatch, toggleExplorer } from "../helpers";
 import axiosApi from '../api/api';
 
 export const useCategorias = () => {
@@ -9,22 +10,53 @@ export const useCategorias = () => {
 
     const dispatch = useDispatch();
  
+
+
+
+
     const dataCategoriasGet = async () => {
+      try{
         const { data } = await axiosApi.get('/categorias')
+        console.log('data Categorias', data)
         dispatch( categoriasDataPush(data));
+      } catch (error) {
+        errorConsoleCatch(error)
+      }
     }
 
-   const deleteCategoria = async (_id:String) => {
-        await axiosApi.delete(`/categorias/${_id}` ) 
-        let categorias2 = categorias.categorias.filter(el => el._id !== _id)
+
+
+
+
+
+
+   const deleteCategoria = async (cid:String) => {
+      try{
+        await axiosApi.delete(`/categorias/${cid}` ) 
+        let categorias2 = categorias.categorias.filter(el => el.cid !== cid)
         dispatch( categoriaDeleteView({total: categorias2.length, categorias:categorias2}) )
+      } catch (error) {
+        errorConsoleCatch(error)
+      }  
    }
 
-  const switchCategoria = async (ID:String) => {
-    await axiosApi.patch(`/categorias/toggle/${ID}`) 
-    const { data } = await axiosApi.get('/categorias')
-    dispatch( switchCategoriaView({total: data.categorias, categorias:data.categorias }) )
+
+
+
+
+
+  const switchCategoria = async (cid:String) => {
+    try{
+      await axiosApi.patch(`/categorias/toggle/${cid}`) 
+      const { newArray } = toggleExplorer({cid}, categorias.categorias, 'toggle')
+      dispatch( switchCategoriaView({total: newArray.categorias, categorias:newArray }) )
+    } catch (error) {
+      errorConsoleCatch(error)
+    }
   }
+
+
+
 
   return {
     dataCategoriasGet,

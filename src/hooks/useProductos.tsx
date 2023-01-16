@@ -42,6 +42,7 @@ export const useProductos = () => {
   const switchProducto = async (pid:String) => {
       try{
           await axiosApi.patch(`/productos/toggle/${pid}`) 
+          
           const { newArray } = toggleExplorer({pid}, productos.productos, 'disponible')
           dispatch( switchProductoView({total: newArray.length, productos:newArray }) )
       } catch (error) {

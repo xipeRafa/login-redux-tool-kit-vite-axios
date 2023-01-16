@@ -42,6 +42,7 @@ export const Productos = () => {
 
                 <p>Nombre: {el.nombre}</p>
                 <p>Usuario: {el.usuario.nombre}</p>
+                <p>Usuario Id: {el.usuario._id}</p>
                 <p>State: {el.estado ? 'true' : 'false'}</p>
 
                 <p>Imagen: {el.img ? 'Con img' : 'Sin img'}</p>

@@ -22,12 +22,12 @@ export const Categorias = () => {
     }, [])
 
 
-    const handleDelete=(_id:String)=>{
-        deleteCategoria(_id)
+    const handleDelete=(cid:String)=>{
+        deleteCategoria(cid)
     }
 
-    const handleSwitch=(ID)=>{
-        switchCategoria(ID)
+    const handleSwitch=(cid)=>{
+        switchCategoria(cid)
     }
 
 
@@ -41,11 +41,15 @@ export const Categorias = () => {
             <div key={i+'!@#'} style={character}>
 
                 <p>Nombre: {el.nombre}</p>
+                <p>cid: {el.cid}</p>
                 <p>State:  {el.estado ? ' true' : ' false'}</p>
                 <p>toggle: {el.toggle ? ' true' : ' false'}</p>
 
-                <button onClick={()=>handleDelete(el._id)}>Eliminar</button>
-                <button onClick={()=>handleSwitch(el._id)}>Toggle</button> 
+                <p>Usuario: {el.usuario.nombre}</p>
+                <p>Usuario Id: {el.usuario._id}</p>
+
+                <button onClick={()=>handleDelete(el.cid)}>Eliminar</button>
+                <button onClick={()=>handleSwitch(el.cid)}>Toggle</button> 
 
             </div>
         ))} 
