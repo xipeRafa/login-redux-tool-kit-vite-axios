@@ -45,7 +45,8 @@ export const Productos = () => {
                 <p>Usuario Id: {el.usuario._id}</p>
                 <p>State: {el.estado ? 'true' : 'false'}</p>
 
-                <p>Imagen: {el.img ? 'Con img' : 'Sin img'}</p>
+                <img src={el.img} width='50px' />
+
                 <p>Precio: {el.precio}</p>  
 
                 <p>id: {el.pid}</p>

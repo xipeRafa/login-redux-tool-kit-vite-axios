@@ -8,6 +8,8 @@ import {useUsers} from '../../hooks'
 
 export const Users = () => {
 
+
+
     const characterCSS = {
         display: "block",
         border: "2px solid salmon",
@@ -18,8 +20,18 @@ export const Users = () => {
         backgroundColor:"lightgray"
     }
 
+    const fileUp = {
+        border: "10px solid #fff;",
+        padding: "3px 6px",
+        marginLeft:"5px",
+        marginBottom:"10px",
+        backgroundColor:"#f55d3e",
+        color:'#fff',
+        cursor:'pointer'
+    }
+
     const { dataUsersGet, users, deleteUser, postUser , switchUser, 
-        errorMessage, setInfoToForm, editMode, newDataEdit, defaultModeEdith } = useUsers()
+        errorMessage, setInfoToForm, editMode, newDataEdit, defaultModeEdith, uploadUserImg } = useUsers()
 
  
     useEffect(() => {
@@ -44,6 +56,8 @@ export const Users = () => {
     const handleEdith =(el)=>{
         setInfoToForm(el)
     }
+
+    
 
 
     
@@ -70,12 +84,16 @@ export const Users = () => {
                 <p>State:  {el.estado ? ' true' : ' false'}</p>
                 <p>Google: {el.google ? ' true' : ' false'}</p>
 
-                <p>Img:    {el.img  ? 'Con img' : 'Sin img'}</p>
+                <img src={el.img} width='100px' />
                 <p>Toggle: {el.toggle ? ' true' : ' false'} </p>
 
                 <button onClick={()=>handleDelete(el.uid)}>Eliminar</button>
                 <button onClick={()=>handleSwitch(el.uid)}>Toggle</button>
                 <button onClick={()=>handleEdith(el)}>Edit</button>
+
+                <label htmlFor="file-upload" style={fileUp}>{el.img ? 'New Photo' : 'Add Photo'}</label>
+
+                <input type="file" id="file-upload" style={{display:'none'}} onChange={ (e)=>uploadUserImg(el.uid, e.target.files[0]) }/>
 
             </div>
         ))}

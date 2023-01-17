@@ -9,6 +9,7 @@ import axiosApi from '../api/api';
 
 
 
+
 export const useUsers = () => {
 
   const { users, errorMessage, editMode } = useSelector(state => state.usersSlice);
@@ -19,10 +20,10 @@ export const useUsers = () => {
 
 
   const dataUsersGet = async () => {
-    try {
+    try { 
       const { data } = await axiosApi.get('/usuarios')
-      console.log('dataUsers:', data)
-      dispatch(usersDataPush(data));
+      console.log('dataUsers:', data) 
+       dispatch(usersDataPush(data))
     } catch (error) {
       errorConsoleCatch(error)
     }
@@ -38,7 +39,7 @@ export const useUsers = () => {
       dispatch(usersDataPush(data));
     } catch (error) {
       errorConsoleCatch(error)
-    } 
+    }  
 
   }
 
@@ -53,7 +54,7 @@ export const useUsers = () => {
   const newDataEdit = async (nombre, correo, uid) => {
     try {
         await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
-        
+
         const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
         dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
     } catch (error) {
@@ -95,7 +96,19 @@ export const useUsers = () => {
         errorConsoleCatch(error)
     }
   }
+  
+  const uploadUserImg = async(uid, file) => {
+    try {
+        const a = await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }})
 
+        console.log('Img was upload:>> ', a);
+    } catch (error) {
+      
+    }
+  }
 
 
 
@@ -113,6 +126,7 @@ export const useUsers = () => {
     setInfoToForm,
     newDataEdit,
     defaultModeEdith,
+    uploadUserImg,
 
     editMode,
     errorMessage,

@@ -6,7 +6,7 @@ import { useForm } from '../../helpers';
 
 
 
-export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) => {
+export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith, uploadUserImg}) => {
 
     const[name2, setName2]=useState({
         nameUser: '',
@@ -41,8 +41,9 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) =>
     const handleCancelEdit =()=>{
         defaultModeEdith()
         setName2({nameUser: '', email: '', password:''})
-
     }
+
+  
 
 
 
@@ -90,10 +91,11 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith}) =>
                     <input type="submit" className="btnSubmitPost" 
                         value={ editMode ? 'Edit User':"New user"} />
 
-                    {editMode &&    
+                    {editMode && 
                         <input type="button" onClick={handleCancelEdit} className="editButton mt-5" value={ editMode ? 'Cancel Edition':'oko'} />
                     }
                 </div>
+
 
             </form>
         </div>

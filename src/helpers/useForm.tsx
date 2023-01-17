@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useDebounce } from "./useDebounce";
 
 
 export const useForm = (initialForm = {}, formValidations = {}) => {
@@ -27,11 +28,37 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
         return true;
     }, [formValidation])
 
+ 
+    
+
+   /*  function debounce(fun, time){
+        let timeoutId;
+        return function(){
+            if(timeoutId){ 
+                clearTimeout(timeoutId)
+            }
+
+            const context = this;
+            const args = arguments;
+            timeoutId = setTimeout(() => {
+                return fun.apply(context, args)
+            }, time)
+        }
+    }  */
+
+    const lastValue = useDebounce(formState, 3000);
 
     const onInputChange = ({ target }) => {
+
         const { name, value } = target;
         setFormState({ ...formState, [name]: value })
     }
+
+ /*     debounce(onInputChange, 3000) */
+ /*   console.log('ddd', lastValue)
+   console.log('formState', formState) */
+
+
 
     const onResetForm = () => {
         setFormState(initialForm);
