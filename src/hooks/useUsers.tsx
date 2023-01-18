@@ -20,9 +20,9 @@ export const useUsers = () => {
   }
 
 
-  const dataUsersGet = async () => {
+  const dataUsersGet = async (from=0, limit=8) => {
     try { 
-      const { data } = await axiosApi.get('/usuarios')
+      const { data } = await axiosApi.get(`/usuarios/${from}/${limit}`)
       console.log('dataUsers:', data)
       dispatch(usersDataPush(data))  
     } catch (error) {
