@@ -37,7 +37,7 @@ export const Categorias = () => {
 
         <h3 style={{marginLeft:"50px"}}>Categorias</h3>
         <input type="search" className='mx-5 my-2' placeholder='Buscar Categorias' onChange={(e)=> categoriasFinder(e.target.value)}/>
-        {categorias.categorias.length < 2 ? <button name=' ' onClick={(e)=> categoriasFinder(e)}>Ver todas las Categorias</button> : ''} 
+        {categorias.categorias?.length < 2 ? <button name=' ' onClick={(e)=> categoriasFinder(e)}>Ver todas las Categorias</button> : ''} 
 
         {categorias.categorias?.map((el, i)=>(
             <div key={i+'!@#'} style={character}>

@@ -68,7 +68,7 @@ export const Users = () => {
         <h3 style={{marginLeft:"50px"}}>Usuarios</h3>
         <input type="search" className='mx-5 my-2' placeholder='Buscar Usuarios' onChange={(e)=> usersFinder(e.target.value)}/>
 
-        {users.usuarios.length < 2 ? <button name=' ' onClick={(e)=> usersFinder(e)}>Ver todos los Usuarios</button> : ''} 
+        {users.usuarios?.length < 2 ? <button name=' ' onClick={(e)=> usersFinder(e)}>Ver todos los Usuarios</button> : ''} 
              
         {users?.usuarios?.map((el, i)=>(
             <div key={i+'!@#'} style={characterCSS}>
