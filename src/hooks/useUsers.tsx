@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { errorConsoleCatch, toggleExplorer, editExplorer} from '../helpers'
 import {defaultEditMode, usersDataPush, clearErrorMessageUsers,
-  userDeleteView, switchUserView, editUserView, somethingWentWrong
+  userDeleteView, switchUserView, editUserView, somethingWentWrong, somethingWentRigth
 } from  '../store/slices/usersSlice';
 import axiosApi from '../api/api';
 
@@ -20,7 +20,7 @@ export const useUsers = () => {
     dispatch(somethingWentWrong(['Something Went Wrong', 'Working !!', 'error']))
   }
 
-  const defaultAlert =()=>{
+  function defaultAlert(){
     setTimeout(() => {
       dispatch(clearErrorMessageUsers())
     }, 500);
@@ -87,7 +87,8 @@ export const useUsers = () => {
     try {
        await axiosApi.delete(`/usuarios/${uid}`)
       let usuarios = users.usuarios.filter(el => el.uid !== uid) 
-      dispatch(userDeleteView({ total: usuarios.length, usuarios, alert: ['Usuario fue Borrado', 'con Exito!!', 'success'] }))
+      dispatch(userDeleteView({ total: usuarios.length, usuarios }))
+      dispatch(somethingWentRigth(['Usuario fue Borrado', 'Con Exito!!', 'success']))
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError()
@@ -101,7 +102,8 @@ export const useUsers = () => {
     try {
       await axiosApi.patch(`/usuarios/toggle/${uid}`)
       const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
-      dispatch(switchUserView({ total: newArray.length, usuarios:newArray }))   
+      dispatch(switchUserView({ total: newArray.length, usuarios:newArray }))  
+      SweetAlertError() 
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError()

@@ -13,13 +13,6 @@ export const usersSlice = createSlice({
     reducers: {
         usersDataPush: (state, { payload }) => {
             state.users = payload;
-            state.errorMessage = undefined;
-        },
-        clearErrorMessageUsers: (state) => {
-            state.errorMessage = undefined;
-        },
-        somethingWentWrong:(state, {payload})=>{
-            state.errorMessage = payload
         },
         editUserView:(state, {payload})=>{
             state.editMode=payload
@@ -29,10 +22,22 @@ export const usersSlice = createSlice({
         },
         userDeleteView: (state, { payload }) => {
             state.users = payload;
-            state.errorMessage = payload.alert;
         },
         switchUserView:(state, {payload})=>{
             state.users = payload
+        },
+        
+        
+
+
+        
+        somethingWentRigth:(state, {payload})=>{
+            state.errorMessage = payload
+        },
+        somethingWentWrong:(state, {payload})=>{
+            state.errorMessage = payload
+        },
+        clearErrorMessageUsers: (state) => {
             state.errorMessage = undefined;
         }
     }
@@ -41,4 +46,4 @@ export const usersSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { usersDataPush, clearErrorMessageUsers, userDeleteView, 
-    switchUserView, editUserView, defaultEditMode, somethingWentWrong } = usersSlice.actions;
+    switchUserView, editUserView, defaultEditMode, somethingWentWrong, somethingWentRigth } = usersSlice.actions;

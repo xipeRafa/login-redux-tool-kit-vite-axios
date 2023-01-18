@@ -39,10 +39,11 @@ export const useAuth = () => {
         } catch (error) {
             errorConsoleCatch(error) 
             dispatch(onLogout(error.response.data.errors[0].msg));
-            /*  setTimeout(() => {
+            setTimeout(() => {
                 dispatch(clearErrorMessage());
-            }, 1000); */
+            }, 1000); 
         }
+        
     }
 
 
@@ -60,7 +61,11 @@ export const useAuth = () => {
         } catch (error) {
             errorConsoleCatch(error)
             dispatch(onLogout(error.response.data.errors[0].msg || '--- useAuth'));
+            setTimeout(() => {
+                dispatch(clearErrorMessage());
+            }, 1000);
         }
+
     }
 
 
