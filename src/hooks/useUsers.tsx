@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { errorConsoleCatch, toggleExplorer, editExplorer} from '../helpers'
 import {defaultEditMode, usersDataPush, userDeleteView, switchUserView, editUserView} from  '../store/slices/usersSlice';
-import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
+import { somethingWentWrong, somethingWentRigth, clearAlertMessage } from  '../store/slices/alertSlice'
 import axiosApi from '../api/api';
 
 
@@ -29,6 +29,10 @@ export const useUsers = () => {
       errorConsoleCatch(error)
       SweetAlertError(error)
     }
+  }
+
+  function dataUsersReload(){
+    dispatch(usersDataPush({ total: users.usuarios.length, usuarios:users.usuarios }))
   }
 
 
@@ -108,12 +112,12 @@ export const useUsers = () => {
 
   const uploadUserImg = async(uid, file) => {
     try {
-        const a = await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
+        await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
         headers: {
           "Content-Type": "multipart/form-data",
         }})
 
-        console.log('Img was upload:>> ', a);
+        dataUsersGet()
     } catch (error) {
         errorConsoleCatch(error)
         SweetAlertError(error)
@@ -132,7 +136,7 @@ export const useUsers = () => {
         const {data} = await axiosApi.get(`/buscar/usuarios/${e}`)
         dispatch(usersDataPush({usuarios:data.results}))
       }else{
-        dataUsersGet()
+        dataUsersReload()
       }
     } catch (error) {
       errorConsoleCatch(error)

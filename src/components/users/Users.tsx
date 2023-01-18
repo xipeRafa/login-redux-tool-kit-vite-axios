@@ -88,10 +88,8 @@ export const Users = () => {
                 <button onClick={()=>handleDelete(el.uid)}>Eliminar</button>
                 <button onClick={()=>handleSwitch(el.uid)}>Toggle</button>
                 <button onClick={()=>handleEdith(el)}>Edit</button>
-
-                <label htmlFor="file-upload" style={fileUp}>{el.img ? 'New Photo' : 'Add Photo'}</label>
-
-                <input type="file" id="file-upload" style={{display:'none'}} onChange={ (e)=>uploadUserImg(el.uid, e.target.files[0]) }/>
+                
+                <input type="file" id="file-upload"  onChange={ (e)=>uploadUserImg(el.uid, e.target.files[0]) }/>
 
             </div>
         ))}
