@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react'; 
+import { useEffect, useState } from 'react'; 
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { Login, SignUp, Nav } from '../authComponents';
@@ -11,10 +11,12 @@ import Swal from 'sweetalert2';
 
 const AppRouter = () => {
 
+
     const { status,  checkLogin,  startLogin, startRegister,startLogout, 
             user, sweetAlertMessage, defaultAlert } = useAuth();
 
     console.log('status:', status)
+
 
 
     useEffect(() => {
@@ -26,9 +28,11 @@ const AppRouter = () => {
     }, [sweetAlertMessage]) 
 
 
+
     useEffect(() => {
         checkLogin();
     }, []) 
+
 
 
     if (status === 'checking') {
@@ -36,16 +40,20 @@ const AppRouter = () => {
     }
 
 
+
+
+
+
     return (
         <div>
-            <Nav startLogout={startLogout} user={user} status={status}/>
+            <Nav startLogout={startLogout} user={user} status={status} />
         <Routes>
-            <Route path="/auth/login"    element={<Login  startLogin={startLogin} />} />
+            <Route path="/auth/login"    element={<Login  startLogin={startLogin}        />} />
             <Route path="/auth/register" element={<SignUp startRegister={startRegister}  />} />
 
             <Route path="/categorias" element={<Categorias />} />
-            <Route path="/users"      element={<Users />} />
-            <Route path="/productos"  element={<Productos />} />
+            <Route path="/users"      element={<Users      />} />
+            <Route path="/productos"  element={<Productos  />} />
 
             <Route path="/*" element={<Navigate to="/auth/login" />} /> 
         </Routes>

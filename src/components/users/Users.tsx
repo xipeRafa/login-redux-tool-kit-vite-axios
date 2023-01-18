@@ -30,7 +30,7 @@ export const Users = () => {
     }
 
     const { dataUsersGet, users, deleteUser, postUser , switchUser, setInfoToForm,
-        editMode, newDataEdit, defaultModeEdith, uploadUserImg } = useUsers()
+        editMode, newDataEdit, defaultModeEdith, uploadUserImg, usersFinder } = useUsers()
 
           
 

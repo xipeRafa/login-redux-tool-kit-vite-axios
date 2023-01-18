@@ -24,7 +24,7 @@ export const useAuth = () => {
 
     function defaultAlert(){
         setTimeout(() => {
-            clearAlertMessage()
+            dispatch(clearAlertMessage())
         }, 500);
     }
 

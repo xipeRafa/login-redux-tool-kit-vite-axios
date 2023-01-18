@@ -65,11 +65,29 @@ export const useProductos = () => {
 
 
 
+    const productosFinder = async (e:String) => {
+        console.log(e.length)
+          try {
+            if(e.length > 3){
+              const {data} = await axiosApi.get(`/buscar/productos/${e}`)
+              dispatch(productosDataPush({productos:data.results}))
+            }else{
+              dataProductosGet()
+            }
+          } catch (error) {
+            errorConsoleCatch(error)
+            SweetAlertError(error)
+          }
+       }
+
+
+
   return {
     dataProductosGet,
     productos,
     deleteProducto,
-    switchProducto
+    switchProducto,
+    productosFinder,
   }
 
 }

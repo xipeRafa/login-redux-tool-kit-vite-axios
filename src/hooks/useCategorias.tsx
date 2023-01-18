@@ -65,13 +65,30 @@ export const useCategorias = () => {
   }
 
 
+  const categoriasFinder = async (e:String) => {
+    console.log(e.length)
+      try {
+        if(e.length > 3){
+          const {data} = await axiosApi.get(`/buscar/categorias/${e}`)
+          dispatch(categoriasDataPush({categorias:data.results}))
+        }else{
+          dataCategoriasGet()
+        }
+      } catch (error) {
+        errorConsoleCatch(error)
+        SweetAlertError(error)
+      }
+   }
+
+
 
 
   return {
     dataCategoriasGet,
     categorias,
     deleteCategoria,
-    switchCategoria
+    switchCategoria,
+    categoriasFinder,
   }
 
 }

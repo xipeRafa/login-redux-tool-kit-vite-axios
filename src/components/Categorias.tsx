@@ -14,7 +14,7 @@ export const Categorias = () => {
         backgroundColor:"lightgray"
     }
 
-    const { dataCategoriasGet, categorias, deleteCategoria, switchCategoria } = useCategorias()
+    const { dataCategoriasGet, categorias, deleteCategoria, switchCategoria, categoriasFinder } = useCategorias()
 
 
     useEffect(() => {
@@ -36,6 +36,7 @@ export const Categorias = () => {
     <div>
 
         <h3 style={{marginLeft:"50px"}}>Categorias</h3>
+        <input type="search" className='mx-5 my-2' placeholder='Buscar Usuarios' onChange={(e)=> categoriasFinder(e.target.value)}/>
 
         {categorias.categorias?.map((el, i)=>(
             <div key={i+'!@#'} style={character}>

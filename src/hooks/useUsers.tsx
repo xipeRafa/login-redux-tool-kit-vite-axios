@@ -122,6 +122,26 @@ export const useUsers = () => {
 
 
 
+
+
+
+ const usersFinder = async (e:String) => {
+  console.log(e.length)
+    try {
+      if(e.length > 3){
+        const {data} = await axiosApi.get(`/buscar/usuarios/${e}`)
+        dispatch(usersDataPush({usuarios:data.results}))
+      }else{
+        dataUsersGet()
+      }
+    } catch (error) {
+      errorConsoleCatch(error)
+      SweetAlertError(error)
+    }
+ }
+
+
+
   
 
 
@@ -137,6 +157,7 @@ export const useUsers = () => {
     newDataEdit,
     defaultModeEdith,
     uploadUserImg,
+    usersFinder,
 
     editMode,
     users,
