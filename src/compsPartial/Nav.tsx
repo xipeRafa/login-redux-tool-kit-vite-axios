@@ -13,9 +13,9 @@ export const Nav = ({ startLogout, user, status }) => {
         {status === 'authenticated' &&
           <div>
             <span>
-              <Link style={{color:"white"}}  to="/users">users</Link>
-              <Link style={{color:"white"}} className='mx-5' to="/productos">productos</Link>
-              <Link style={{color:"white"}} className='mx-5' to="/categorias">categorias</Link>
+              <Link style={{color:"white"}} to="/users"      className='mx-5'>Users     </Link>
+              <Link style={{color:"white"}} to="/productos"  className='mx-5'>Productos </Link>
+              <Link style={{color:"white"}} to="/categorias" className='mx-5'>Categorias</Link>
             </span>
 
             <Link className="btn btn-outline-danger" to="/auth/login" onClick={ startLogout }>

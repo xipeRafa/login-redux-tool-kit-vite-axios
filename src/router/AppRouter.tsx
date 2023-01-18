@@ -1,12 +1,13 @@
 
-import { useEffect, useState } from 'react'; 
+import { useEffect } from 'react'; 
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Login, SignUp, Nav } from '../authComponents';
+import { Login, SignUp} from '../authComponents';
 import { Users, Productos, Categorias } from '../components';
 import { useAuth } from '../hooks/useAuth';
 
 import Swal from 'sweetalert2';
+import { Nav } from '../compsPartial';
 
 
 const AppRouter = () => {

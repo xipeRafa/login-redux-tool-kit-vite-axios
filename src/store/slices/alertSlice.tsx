@@ -21,6 +21,7 @@ export const alertSlice = createSlice({
             state.sweetAlertMessage = undefined;
         }
     }
+    
 });
 
 

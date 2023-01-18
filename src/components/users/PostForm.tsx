@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import './user.css';
+import './postForm.css';
 import { useForm } from '../../helpers';
 
 

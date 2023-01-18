@@ -1,9 +1,8 @@
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import './App.css'
 import { store } from './store/store';
 import AppRouter from './router/AppRouter';
-import { Footer } from './components';
+import { Footer } from './compsPartial';
 
 
 export const App = () => {
