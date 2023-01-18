@@ -1,16 +1,21 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { categoriasDataPush, clearErrorMessageCategorias, categoriaDeleteView, switchCategoriaView } from '../store/slices/categoriasSlice';
+import { categoriasDataPush, categoriaDeleteView, switchCategoriaView } from '../store/slices/categoriasSlice';
 import { errorConsoleCatch, toggleExplorer } from "../helpers";
 import axiosApi from '../api/api';
+import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
+
 
 export const useCategorias = () => {
 
-  const { categorias, errorMessage } = useSelector(state => state.categoriasSlice);
+  const { categorias } = useSelector(state => state.categoriasSlice);
 
     const dispatch = useDispatch();
  
-
+      //"warning", "error", "success","info"
+    function SweetAlertError(error){
+      dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
+    }
 
 
 
@@ -21,6 +26,7 @@ export const useCategorias = () => {
         dispatch( categoriasDataPush(data));
       } catch (error) {
         errorConsoleCatch(error)
+        SweetAlertError(error)
       }
     }
 
@@ -37,6 +43,7 @@ export const useCategorias = () => {
         dispatch( categoriaDeleteView({total: categorias2.length, categorias:categorias2}) )
       } catch (error) {
         errorConsoleCatch(error)
+        SweetAlertError(error)
       }  
    }
 
@@ -50,8 +57,10 @@ export const useCategorias = () => {
       await axiosApi.patch(`/categorias/toggle/${cid}`) 
       const { newArray } = toggleExplorer({cid}, categorias.categorias, 'toggle')
       dispatch( switchCategoriaView({total: newArray.categorias, categorias:newArray }) )
+      dispatch( somethingWentRigth(['Switch Value', 'Con Exito!!', 'success']) )
     } catch (error) {
       errorConsoleCatch(error)
+      SweetAlertError(error)
     }
   }
 
@@ -64,4 +73,5 @@ export const useCategorias = () => {
     deleteCategoria,
     switchCategoria
   }
+
 }

@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './user.css';
 import { useForm } from '../../helpers';
 
@@ -6,7 +6,7 @@ import { useForm } from '../../helpers';
 
 
 
-export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith, uploadUserImg}) => {
+export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith }) => {
 
     const[name2, setName2]=useState({
         nameUser: '',

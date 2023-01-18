@@ -6,13 +6,24 @@ import { Login, SignUp, Nav } from '../authComponents';
 import { Users, Productos, Categorias } from '../components';
 import { useAuth } from '../hooks/useAuth';
 
+import Swal from 'sweetalert2';
+
 
 const AppRouter = () => {
 
-    const { status,  checkLogin,  startLogin, errorMessage, 
-        startRegister,startLogout, user,  } = useAuth();
+    const { status,  checkLogin,  startLogin, startRegister,startLogout, 
+            user, sweetAlertMessage, defaultAlert } = useAuth();
 
     console.log('status:', status)
+
+
+    useEffect(() => {
+        if (sweetAlertMessage !== undefined) {
+           Swal.fire(sweetAlertMessage[0], sweetAlertMessage[1], sweetAlertMessage[2]);
+           defaultAlert()
+       } 
+       console.log('sweetAlertMessage', sweetAlertMessage)
+    }, [sweetAlertMessage]) 
 
 
     useEffect(() => {
@@ -29,8 +40,8 @@ const AppRouter = () => {
         <div>
             <Nav startLogout={startLogout} user={user} status={status}/>
         <Routes>
-            <Route path="/auth/login"    element={<Login  startLogin={startLogin}       errorMessage={errorMessage} />} />
-            <Route path="/auth/register" element={<SignUp startRegister={startRegister} errorMessage={errorMessage} />} />
+            <Route path="/auth/login"    element={<Login  startLogin={startLogin} />} />
+            <Route path="/auth/register" element={<SignUp startRegister={startRegister}  />} />
 
             <Route path="/categorias" element={<Categorias />} />
             <Route path="/users"      element={<Users />} />

@@ -1,16 +1,32 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store/slices/authSlice'
+import { onChecking, onLogin, onLogout } from '../store/slices/authSlice'
 import { useLocation } from 'react-router-dom';
 import { errorConsoleCatch } from '../helpers'
 import axiosApi from '../api/api';
+import { clearAlertMessage, somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
+
 
 export const useAuth = () => {
 
     let location = useLocation();
 
-    const { status, user, errorMessage } = useSelector(state => state.authSlice);
+    const { status, user } = useSelector(state => state.authSlice);
+    const { sweetAlertMessage } = useSelector(state => state.alertSlice);
 
     const dispatch = useDispatch();
+
+
+    //"warning", "error", "success","info"
+    function SweetAlertError(error){
+        dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
+    }
+
+
+    function defaultAlert(){
+        setTimeout(() => {
+            clearAlertMessage()
+        }, 500);
+    }
 
 
 
@@ -38,12 +54,10 @@ export const useAuth = () => {
             location.pathname = '/productos'             
         } catch (error) {
             errorConsoleCatch(error) 
-            dispatch(onLogout(error.response.data.errors[0].msg));
-            setTimeout(() => {
-                dispatch(clearErrorMessage());
-            }, 1000); 
+            SweetAlertError(error)
+            dispatch(onLogout());
         }
-        
+
     }
 
 
@@ -60,10 +74,8 @@ export const useAuth = () => {
             location.pathname = '/productos' 
         } catch (error) {
             errorConsoleCatch(error)
-            dispatch(onLogout(error.response.data.errors[0].msg || '--- useAuth'));
-            setTimeout(() => {
-                dispatch(clearErrorMessage());
-            }, 1000);
+            SweetAlertError(error)
+            dispatch(onLogout());
         }
 
     }
@@ -106,9 +118,10 @@ export const useAuth = () => {
 
     return {
         //* estado
-        errorMessage,
         status,
         user,
+        sweetAlertMessage,
+        defaultAlert,
 
         //* Métodos
         checkLogin, 

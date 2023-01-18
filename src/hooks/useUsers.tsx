@@ -1,9 +1,8 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { errorConsoleCatch, toggleExplorer, editExplorer} from '../helpers'
-import {defaultEditMode, usersDataPush, clearErrorMessageUsers,
-  userDeleteView, switchUserView, editUserView, somethingWentWrong, somethingWentRigth
-} from  '../store/slices/usersSlice';
+import {defaultEditMode, usersDataPush, userDeleteView, switchUserView, editUserView} from  '../store/slices/usersSlice';
+import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
 import axiosApi from '../api/api';
 
 
@@ -11,19 +10,13 @@ import axiosApi from '../api/api';
 
 export const useUsers = () => {
 
-  const { users, errorMessage, editMode } = useSelector(state => state.usersSlice);
+  const { users, editMode } = useSelector(state => state.usersSlice);
 
   const dispatch = useDispatch();
   
   //"warning", "error", "success","info"
-  function SweetAlertError(){
-    dispatch(somethingWentWrong(['Something Went Wrong', 'Working !!', 'error']))
-  }
-
-  function defaultAlert(){
-    setTimeout(() => {
-      dispatch(clearErrorMessageUsers())
-    }, 500);
+  function SweetAlertError(error){
+    dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
   }
 
 
@@ -34,7 +27,7 @@ export const useUsers = () => {
       dispatch(usersDataPush(data))  
     } catch (error) {
       errorConsoleCatch(error)
-      SweetAlertError()
+      SweetAlertError(error)
     }
   }
 
@@ -47,7 +40,7 @@ export const useUsers = () => {
       dispatch(usersDataPush(data));
     } catch (error) {
       errorConsoleCatch(error)
-      SweetAlertError()
+      SweetAlertError(error)
     }  
   }
 
@@ -67,7 +60,7 @@ export const useUsers = () => {
         dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
     } catch (error) {
         errorConsoleCatch(error)
-        SweetAlertError()
+        SweetAlertError(error)
     }
     dispatch(defaultEditMode()) 
   }
@@ -91,7 +84,7 @@ export const useUsers = () => {
       dispatch(somethingWentRigth(['Usuario fue Borrado', 'Con Exito!!', 'success']))
     } catch (error) {
       errorConsoleCatch(error)
-      SweetAlertError()
+      SweetAlertError(error)
     } 
   }
 
@@ -103,10 +96,10 @@ export const useUsers = () => {
       await axiosApi.patch(`/usuarios/toggle/${uid}`)
       const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
       dispatch(switchUserView({ total: newArray.length, usuarios:newArray }))  
-      SweetAlertError() 
     } catch (error) {
+      console.log('switch :>> ');
       errorConsoleCatch(error)
-      SweetAlertError()
+      SweetAlertError(error)
     } 
   }
   
@@ -122,8 +115,8 @@ export const useUsers = () => {
 
         console.log('Img was upload:>> ', a);
     } catch (error) {
-      errorConsoleCatch(error)
-      SweetAlertError()
+        errorConsoleCatch(error)
+        SweetAlertError(error)
     }
   }
 
@@ -144,10 +137,8 @@ export const useUsers = () => {
     newDataEdit,
     defaultModeEdith,
     uploadUserImg,
-    defaultAlert,
 
     editMode,
-    errorMessage,
     users,
   }
 }

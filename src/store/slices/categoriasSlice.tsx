@@ -5,29 +5,22 @@ export const categoriasSlice = createSlice({
     name: 'categorias',
 
     initialState: {
-        categorias: [],
-        errorMessage: undefined,
+        categorias: []
     },
 
     reducers: {
         categoriasDataPush: (state, { payload }) => {
-            state.categorias = payload;
-            state.errorMessage = undefined;
-        },
-        clearErrorMessageCategorias: (state) => {
-            state.errorMessage = undefined;
+            state.categorias = payload;  
         },
         categoriaDeleteView: (state, { payload }) => {
             state.categorias = payload;
-            state.errorMessage = undefined;
         },
         switchCategoriaView:(state, {payload})=>{
-            state.categorias = payload
-            state.errorMessage = undefined;
+            state.categorias = payload  
         }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { categoriasDataPush, clearErrorMessageCategorias, categoriaDeleteView, switchCategoriaView } = categoriasSlice.actions;
+export const { categoriasDataPush, categoriaDeleteView, switchCategoriaView } = categoriasSlice.actions;

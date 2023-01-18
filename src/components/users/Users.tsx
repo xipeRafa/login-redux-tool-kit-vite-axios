@@ -1,6 +1,5 @@
 
 import React, {useEffect} from 'react'
-import Swal from 'sweetalert2';
 import {PostForm} from './PostForm';
 import {useUsers} from '../../hooks'
 
@@ -30,22 +29,14 @@ export const Users = () => {
         cursor:'pointer'
     }
 
-    const { dataUsersGet, users, deleteUser, postUser , switchUser, errorMessage, setInfoToForm,
-        editMode, newDataEdit, defaultModeEdith, uploadUserImg, defaultAlert } = useUsers()
+    const { dataUsersGet, users, deleteUser, postUser , switchUser, setInfoToForm,
+        editMode, newDataEdit, defaultModeEdith, uploadUserImg } = useUsers()
 
           
 
      useEffect(() => {
         dataUsersGet()
     }, []) 
-
-    useEffect(() => {
-         if (errorMessage !== undefined) {
-            Swal.fire(errorMessage[0], errorMessage[1], errorMessage[2]);
-            defaultAlert()
-        } 
-        console.log('errorMessage', errorMessage)
-    }, [errorMessage]) 
 
 
     const handleDelete=(uid:String)=>{

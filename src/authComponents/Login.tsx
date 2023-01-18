@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const loginFormFields:loginFormFields = {
 }
 
 
-export const Login = ({ startLogin, errorMessage }) => {
+export const Login = ({ startLogin }) => {
 
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
@@ -35,16 +35,6 @@ export const Login = ({ startLogin, errorMessage }) => {
         startLogin({ correo: loginEmail, password: loginPassword });
          
     }
-
-
-
-    useEffect(() => {
-        if (errorMessage !== undefined) {
-            Swal.fire('Error en la autenticación --- Login', errorMessage, 'error');
-        }
-    }, [errorMessage]) // al mandar un onLogout errorMessage CAMBIA
-
-
 
 
     return (

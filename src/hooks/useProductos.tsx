@@ -1,15 +1,23 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { errorConsoleCatch, toggleExplorer } from "../helpers";
-import { productosDataPush, clearErrorMessageProductos, productoDeleteView, switchProductoView } from '../store/slices/productosSlice';
+import { productosDataPush, productoDeleteView, switchProductoView } from '../store/slices/productosSlice';
+import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
+
 import axiosApi from '../api/api';
 
 export const useProductos = () => {
 
-    const { productos, errorMessage } = useSelector(state => state.productosSlice);
+    const { productos } = useSelector(state => state.productosSlice);
+
 
     const dispatch = useDispatch(); 
  
+
+      //"warning", "error", "success","info"
+    function SweetAlertError(error){
+        dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
+    }
 
 
 
@@ -20,6 +28,7 @@ export const useProductos = () => {
             console.log('data :>> ', data);
         } catch (error) {
             errorConsoleCatch(error)
+            SweetAlertError(error)
         }
     }
 
@@ -31,24 +40,27 @@ export const useProductos = () => {
             await axiosApi.delete(`/productos/${pid}` ) 
             let productos2 = productos.productos.filter(el => el.pid !== pid)
             dispatch( productoDeleteView({total: productos2.length, productos:productos2}) )
+            dispatch( somethingWentRigth(['Producto Borrado', 'Con Exito!!', 'success']) )
         } catch (error) {
             errorConsoleCatch(error)
+            SweetAlertError(error)
         }
     }
 
 
 
 
-  const switchProducto = async (pid:String) => {
-      try{
-          await axiosApi.patch(`/productos/toggle/${pid}`) 
+    const switchProducto = async (pid:String) => {
+        try{
+            await axiosApi.patch(`/productos/toggle/${pid}`) 
           
-          const { newArray } = toggleExplorer({pid}, productos.productos, 'disponible')
-          dispatch( switchProductoView({total: newArray.length, productos:newArray }) )
-      } catch (error) {
-          errorConsoleCatch(error)
-      }
-  }
+            const { newArray } = toggleExplorer({pid}, productos.productos, 'disponible')
+            dispatch( switchProductoView({total: newArray.length, productos:newArray }) )
+        } catch (error) {
+            errorConsoleCatch(error)
+            SweetAlertError(error)
+        }
+    }
 
 
 
