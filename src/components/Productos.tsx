@@ -34,7 +34,9 @@ export const Productos = () => {
   return (
     <div>
         <h3 style={{marginLeft:"50px"}}>Productos</h3>
-        <input type="search" className='mx-5 my-2' placeholder='Buscar Usuarios' onChange={(e)=> productosFinder(e.target.value)}/>
+        <input type="search" className='mx-5 my-2' placeholder='Buscar Productos' onChange={(e)=> productosFinder(e.target.value)}/>
+        {productos.productos.length < 2 ? <button name=' ' onClick={(e)=> productosFinder(e)}>Ver todos los Productos</button> : ''} 
+
 
           {productos.productos?.map((el, i)=>(
             <div key={i+'!@#'} style={character}>

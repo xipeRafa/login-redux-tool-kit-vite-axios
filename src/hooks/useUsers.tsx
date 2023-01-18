@@ -126,7 +126,7 @@ export const useUsers = () => {
 
 
  const usersFinder = async (e:String) => {
-  console.log(e.length)
+  console.log('e :>> ', e);
     try {
       if(e.length > 3){
         const {data} = await axiosApi.get(`/buscar/usuarios/${e}`)
