@@ -17,4 +17,4 @@ export function errorConsoleCatch(error) {
 }
 
 
-// data es el primeer objeto que viene en  res.json({msg:'})
+// data es el primer objeto que viene en  res.json({msg:'})

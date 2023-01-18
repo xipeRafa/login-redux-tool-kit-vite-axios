@@ -21,7 +21,7 @@ export const Users = () => {
     }
 
     const fileUp = {
-        border: "10px solid #fff;",
+        border: "0 solid #fff",
         padding: "3px 6px",
         marginLeft:"5px",
         marginBottom:"10px",
@@ -30,18 +30,21 @@ export const Users = () => {
         cursor:'pointer'
     }
 
-    const { dataUsersGet, users, deleteUser, postUser , switchUser, 
-        errorMessage, setInfoToForm, editMode, newDataEdit, defaultModeEdith, uploadUserImg } = useUsers()
+    const { dataUsersGet, users, deleteUser, postUser , switchUser, errorMessage, setInfoToForm,
+        editMode, newDataEdit, defaultModeEdith, uploadUserImg, defaultAlert } = useUsers()
 
- 
-    useEffect(() => {
+          
+
+     useEffect(() => {
         dataUsersGet()
-    }, [])
+    }, []) 
 
     useEffect(() => {
-        if (errorMessage !== undefined) {
-            Swal.fire(errorMessage,'Con Exito!!', 'success' );
-        }
+         if (errorMessage !== undefined) {
+            Swal.fire(errorMessage[0], errorMessage[1], errorMessage[2]);
+            defaultAlert()
+        } 
+        console.log('errorMessage', errorMessage)
     }, [errorMessage]) 
 
 
@@ -72,7 +75,7 @@ export const Users = () => {
 
         <h3 style={{marginLeft:"50px"}}>Usuarios</h3>
 
-        {users.usuarios?.map((el, i)=>(
+        {users?.usuarios?.map((el, i)=>(
             <div key={i+'!@#'} style={characterCSS}>
 
                 <h3>Nombre: {el.nombre}</h3>
