@@ -7,7 +7,7 @@ import { Users, Productos, Categorias } from '../components';
 import { useAuth } from '../hooks/useAuth';
 
 import Swal from 'sweetalert2';
-import { Nav } from '../compsPartial';
+import { Nav } from '../cmpsPartial';
 
 
 const AppRouter = () => {

@@ -130,7 +130,7 @@ export const useUsers = () => {
 
 
  const usersFinder = async (e:String) => {
-  console.log('e :>> ', e);
+  console.log('e', e)
     try {
       if(e.length > 3){
         const {data} = await axiosApi.get(`/buscar/usuarios/${e}`)
@@ -144,7 +144,22 @@ export const useUsers = () => {
     }
  }
 
+ const PaginationRow=(boo)=>{
+    let n=8
+    let contador = localStorage.getItem('step') || n
 
+    boo ? contador++ : contador>=n+1 ? contador-- :n
+
+    let a = localStorage.step = contador;
+
+    dataUsersGet(a -n, a)  
+ }
+
+
+ const paginationSelect=(a)=>{
+  localStorage.setItem('step', a);
+   dataUsersGet(a -8, a) 
+ }
 
   
 
@@ -162,6 +177,10 @@ export const useUsers = () => {
     defaultModeEdith,
     uploadUserImg,
     usersFinder,
+    paginationSelect,
+    PaginationRow,
+
+
 
     editMode,
     users,
