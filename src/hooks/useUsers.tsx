@@ -14,10 +14,15 @@ export const useUsers = () => {
 
   const dispatch = useDispatch();
   
+
+
+
   //"warning", "error", "success","info"
   function SweetAlertError(error){
     dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
   }
+
+
 
 
   const dataUsersGet = async (from=0, limit=8) => {
@@ -27,13 +32,16 @@ export const useUsers = () => {
       dispatch(usersDataPush(data))
 
       const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
-      localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])
+      localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])  
 
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
     }
   }
+
+
+
 
   function dataUsersReload(){
     dispatch(usersDataPush({ total: users.usuarios.length, usuarios:users.usuarios }))
@@ -43,9 +51,20 @@ export const useUsers = () => {
 
   const postUser = async ({ nombre, correo, password }) => {
     try {
-      await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
-      const { data } = await axiosApi.get('/usuarios/from=0/limit=8')
-      dispatch(usersDataPush(data));
+      const {data} = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
+      
+      let s = JSON.stringify(data.usuario)
+      let ss = JSON.parse(s)
+      
+      let newArr = [...JSON.parse(localStorage.UsersArray), ss]
+      localStorage.UsersArray = JSON.stringify([...newArr])
+      
+      let ls = JSON.parse(localStorage.UsersArray)
+      dispatch(usersDataPush({usuarios: ls.slice(-1) }) )
+      
+    /*const { data } = await axiosApi.get('/usuarios/from=0/limit=8')
+      dispatch(usersDataPush(data)); */
+      
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
@@ -171,7 +190,7 @@ const usersFinder = async (v:String) => {
         if(d.length>=1){dispatch(usersDataPush({usuarios:d}))}
 
         if(e.length>=1){dispatch(usersDataPush({usuarios:e}))}
-        
+
         if(f.length>=1){dispatch(usersDataPush({usuarios:f}))}
  
     /*     const {data} = await axiosApi.get(`/buscar/usuarios/${v}`) 
@@ -220,7 +239,7 @@ const paginationNext =(boo:Boolean, n=8)=>{
   let t = JSON.parse(localStorage.UsersArray).length
 
   let step = localStorage.step
-  boo ? (t>step) ? step = Number(step)+n   :n
+  boo ? /* (t>step) */true ? step = Number(step)+n   :n
       : (step>8) ? step = Number(step)-n  :n
 
   localStorage.step = step

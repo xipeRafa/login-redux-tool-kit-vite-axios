@@ -38,6 +38,7 @@ export const useAuth = () => {
         
         localStorage.setItem('token', DATA.token);
         localStorage.setItem('token-init-date', new Date().getTime());
+        console.log('DATA :>> ', DATA);
     }
 
 
