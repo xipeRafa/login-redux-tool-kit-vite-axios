@@ -86,6 +86,7 @@ export const Users = () => {
                     <option value="16">9 a 16</option>
                     <option value="24">17 a 24</option>
                     <option value="32">25 a 32</option>
+                    <option value="40">33 a 40</option>
                 </select>
 
                 

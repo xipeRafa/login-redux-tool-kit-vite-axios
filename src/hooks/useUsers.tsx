@@ -133,19 +133,59 @@ export const useUsers = () => {
 
 
 
- const usersFinder = async (e:String) => {
+const usersFinder = async (v:String) => {
     try {
-      if(e.length > 3){
-        const {data} = await axiosApi.get(`/buscar/usuarios/${e}`)
-        dispatch(usersDataPush({usuarios:data.results}))
+      if(v.length > 3){
+
+        v=v.trim()
+
+        function capitalizeFirstLetter(v) {
+          return v.charAt(0).toUpperCase() + v.slice(1);
+        }
+        let finding = capitalizeFirstLetter(v.toLowerCase());
+
+
+        function lowerFirstLetter(v) {
+          return v.charAt(0).toLowerCase() + v.slice(1);
+        }
+        let finding2 = lowerFirstLetter(v.toLowerCase());
+
+        console.log('finding', finding2)
+      
+        let a = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(v) > -1)
+        let b = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(finding) > -1)
+        let c = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(finding2) > -1)
+
+        let d = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(v) > -1)
+        let e = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(finding) > -1)
+        let f = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(finding2) > -1)
+
+        /* console.log('a :>> ', a, 'b', b, 'c', c); */
+
+        if(a.length>=1){dispatch(usersDataPush({usuarios:a}))}
+
+        if(b.length>=1){dispatch(usersDataPush({usuarios:b}))}
+
+        if(c.length>=1){dispatch(usersDataPush({usuarios:c}))}
+
+        if(d.length>=1){dispatch(usersDataPush({usuarios:d}))}
+
+        if(e.length>=1){dispatch(usersDataPush({usuarios:e}))}
+        
+        if(f.length>=1){dispatch(usersDataPush({usuarios:f}))}
+ 
+    /*     const {data} = await axiosApi.get(`/buscar/usuarios/${v}`) 
+        dispatch(usersDataPush({usuarios:data.results}))  */ 
+
       }else{
         dataUsersReload()
       }
+      
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
     }
- }
+}
 
  /* const PaginationRow=(boo:Boolean, n=8)=>{
 
@@ -160,7 +200,7 @@ export const useUsers = () => {
  } */
 
 
- const paginationSelect=(v:Number)=>{
+const paginationSelect=(v:Number)=>{
     localStorage.setItem('step', v)
      
     let step = localStorage.step
@@ -172,10 +212,10 @@ export const useUsers = () => {
     dispatch(usersDataPush({usuarios: b }) ) 
 
    /*  dataUsersGet(v -8, v) */ 
- }
+}
 
 
- const paginationNext =(boo:Boolean, n=8)=>{
+const paginationNext =(boo:Boolean, n=8)=>{
   
   let t = JSON.parse(localStorage.UsersArray).length
 
@@ -192,7 +232,7 @@ export const useUsers = () => {
   dispatch(usersDataPush({usuarios: b }) )
 
    /*  dataUsersGet(step -n, step) */
- }
+}
 
 
 
