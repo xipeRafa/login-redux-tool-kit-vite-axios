@@ -31,7 +31,7 @@ export const Users = () => {
 
     const { dataUsersGet, users, deleteUser, postUser, switchUser, setInfoToForm,
         editMode, newDataEdit, defaultModeEdith, uploadUserImg, usersFinder, 
-        PaginationRow, paginationSelect } = useUsers()
+         paginationSelect, paginationNext } = useUsers()
 
 
 
@@ -68,18 +68,20 @@ export const Users = () => {
             <div className='mx-5 my-2'>
                 <div>
                     {`Usuarios del: ${localStorage.step -8 +1} asta el: ${Number(localStorage.step)}`}
+                    
                 </div>
-                <input type="button" value='<' onClick={()=>PaginationRow(false)} className='btn btn-secondary'/>
+                <input type="button" value='Previous' onClick={()=>paginationNext(false)} className='btn btn-secondary'/>
 
                 <input type="button" value='1' onClick={()=>handlePaginationSelect(8)} className='btn btn-secondary'/>
                 <input type="button" value='2' onClick={()=>handlePaginationSelect(16)} className='btn btn-secondary'/>
                 <input type="button" value='3' onClick={()=>handlePaginationSelect(24)} className='btn btn-secondary'/>
                 <input type="button" value='4' onClick={()=>handlePaginationSelect(32)} className='btn btn-secondary'/>
+                <input type="button" value='5' onClick={()=>handlePaginationSelect(40)} className='btn btn-secondary'/>
 
-                <input type="button" value='>' onClick={()=>PaginationRow(true)} className='btn btn-secondary'/>
+                <input type="button" value='Next' onClick={()=>paginationNext(true)} className='btn btn-secondary'/>
 
-                <select className='form-control col-12 my-2' style={{width:'200px'}} onChange={(e)=>handlePaginationSelect(e.target.value)}>
-                    <option value="8"> usuarios </option>
+                <select className='form-select col-12 my-2' style={{width:'200px'}} onChange={(e)=>handlePaginationSelect(e.target.value)}>
+                    <option value=" 8"> Paginas de Usuarios </option>
                     <option value=" 8">1 a  8</option>
                     <option value="16">9 a 16</option>
                     <option value="24">17 a 24</option>
@@ -98,11 +100,11 @@ export const Users = () => {
 
 
 
-            <input type="search" className='mx-5 my-2' placeholder='Buscar Usuarios' onChange={(e)=> usersFinder(e.target.value)} />
+            <input type="search" className='form-control col-12 my-2 mx-5' style={{width:'200px'}} placeholder='Buscar Usuarios' onChange={(e)=> usersFinder(e.target.value)} />
 
              {users.usuarios?.length < 2 &&  
-                <div className='mx-5'>
-                    <button onClick={()=>handlePaginationSelect(8)()} className='btn btn-info'>
+                <div className='mx-5 my-4'>
+                    <button onClick={()=>handlePaginationSelect(8)} className='btn btn-info'>
                         Click para Ver todos los Usuarios
                     </button>
                 </div>}

@@ -23,8 +23,12 @@ export const useUsers = () => {
   const dataUsersGet = async (from=0, limit=8) => {
     try { 
       const { data } = await axiosApi.get(`/usuarios/${from}/${limit}`)
-      console.log('dataUsers:', data)
-      dispatch(usersDataPush(data))  
+      console.log('dataUsers limit 8:', data)
+      dispatch(usersDataPush(data))
+
+      const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
+      localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])
+
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
@@ -40,7 +44,7 @@ export const useUsers = () => {
   const postUser = async ({ nombre, correo, password }) => {
     try {
       await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
-      const { data } = await axiosApi.get('/usuarios')
+      const { data } = await axiosApi.get('/usuarios/from=0/limit=8')
       dispatch(usersDataPush(data));
     } catch (error) {
       errorConsoleCatch(error)
@@ -130,7 +134,6 @@ export const useUsers = () => {
 
 
  const usersFinder = async (e:String) => {
-  console.log('e', e)
     try {
       if(e.length > 3){
         const {data} = await axiosApi.get(`/buscar/usuarios/${e}`)
@@ -144,24 +147,53 @@ export const useUsers = () => {
     }
  }
 
- const PaginationRow=(boo)=>{
-    let n=8
-    let contador = localStorage.getItem('step') || n
+ /* const PaginationRow=(boo:Boolean, n=8)=>{
 
-    boo ? contador++ : contador>=n+1 ? contador-- :n
+    let contador = localStorage.step || n
+
+    boo ? (users.total>contador) ? contador++ :n
+        : (contador>=n+1) ? contador-- :n
 
     let a = localStorage.step = contador;
 
     dataUsersGet(a -n, a)  
+ } */
+
+
+ const paginationSelect=(v:Number)=>{
+    localStorage.setItem('step', v)
+     
+    let step = localStorage.step
+
+    let fn = Number(step) - 8;
+    let ln = Number(step) 
+
+    let b = JSON.parse(localStorage.UsersArray).slice(fn, ln);
+    dispatch(usersDataPush({usuarios: b }) ) 
+
+   /*  dataUsersGet(v -8, v) */ 
  }
 
 
- const paginationSelect=(a)=>{
-  localStorage.setItem('step', a);
-   dataUsersGet(a -8, a) 
- }
-
+ const paginationNext =(boo:Boolean, n=8)=>{
   
+  let t = JSON.parse(localStorage.UsersArray).length
+
+  let step = localStorage.step
+  boo ? (t>step) ? step = Number(step)+n   :n
+      : (step>8) ? step = Number(step)-n  :n
+
+  localStorage.step = step
+  
+  let fn = Number(step) - n;
+  let ln = Number(step)
+
+  let b = JSON.parse(localStorage.UsersArray).slice(fn, ln);
+  dispatch(usersDataPush({usuarios: b }) )
+
+   /*  dataUsersGet(step -n, step) */
+ }
+
 
 
 
@@ -178,7 +210,7 @@ export const useUsers = () => {
     uploadUserImg,
     usersFinder,
     paginationSelect,
-    PaginationRow,
+    paginationNext,
 
 
 
