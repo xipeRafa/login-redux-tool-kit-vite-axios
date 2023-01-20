@@ -74,7 +74,7 @@ export const Users = () => {
 
             <input type="search" className='form-control col-12 my-2 mx-5' style={{width:'200px'}} placeholder='Buscar Usuarios' onChange={(e)=> usersFinder(e.target.value.trim())} />
 
-            {users.usuarios?.length < 2 &&  
+            {users.usuarios?.length < 3 &&  
                 <div className='mx-5 my-4'>
                     <button onClick={()=>handlePaginationSelect(8)} className='btn btn-info'> Click para Ver todos los Usuarios</button>
                 </div>

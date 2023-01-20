@@ -17,6 +17,8 @@ export const finderExplorer=(v)=>{
     let lowerCase = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(v.toLowerCase()) > -1)
     let emailFind = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(v.toLowerCase()) > -1)
  
+
+    
     return{ 
         upFirstLe, 
         upperCase,    

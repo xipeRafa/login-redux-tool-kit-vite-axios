@@ -32,6 +32,8 @@ export const useUsers = () => {
       const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
       localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])  
       localStorage.UsersTotal = data.total  
+      
+      paginationSelect(8)
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
@@ -122,12 +124,17 @@ export const useUsers = () => {
 
   const uploadUserImg = async(uid, file) => {
     try {
-        await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
+        const {data}=await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
         headers: {
           "Content-Type": "multipart/form-data",
         }})
 
-        dataUsersGet()
+        dispatch(somethingWentRigth(['Foto fue Actualizada', 'Con Exito!!', 'success']))  
+
+        let img = data.img
+        const { newArray } = editExplorer({uid}, users.usuarios, {img})
+        dispatch(usersDataPush({ usuarios:newArray }))
+           
     } catch (error) {
         errorConsoleCatch(error)
         SweetAlertError(error)
@@ -143,7 +150,7 @@ const usersFinder = async (v:String) => {
     try {
       if(v.length > 3){
 
-        const { upFirstLe,upperCase,lowerCase,emailFind } =finderExplorer(v)
+        const { upFirstLe, upperCase, lowerCase, emailFind } = finderExplorer(v)
 
         upFirstLe.length>=1 ? dispatch(usersDataPush({usuarios:upFirstLe})): null
         upperCase.length>=1 ? dispatch(usersDataPush({usuarios:upperCase})): null
@@ -170,8 +177,9 @@ const paginationSelect=(v:Number)=>{
 
 
 const paginationNext =(boo:Boolean, n=8)=>{
-  const {arr} = nextExplorer(boo, n)
+  const { arr } = nextExplorer(boo, n)
   dispatch(usersDataPush({usuarios: arr }) )
+  // let step = localStorage.step
    /*  dataUsersGet(step -n, step) */
 }
 
