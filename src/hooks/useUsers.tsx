@@ -1,9 +1,10 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { errorConsoleCatch, toggleExplorer, editExplorer, finderExplorer, postExplorer} from '../helpers'
-import {defaultEditMode, usersDataPush, userDeleteView, switchUserView, editUserView} from  '../store/slices/usersSlice';
-import { somethingWentWrong, somethingWentRigth, clearAlertMessage } from  '../store/slices/alertSlice'
 import axiosApi from '../api/api';
+import { errorConsoleCatch, toggleExplorer, editExplorer, finderExplorer, postExplorer,
+          paginationExplorer, nextExplorer} from '../helpers'
+import {defaultEditMode, usersDataPush, userDeleteView, switchUserView, editUserView} from  '../store/slices/usersSlice';
+import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
 
 
 
@@ -16,13 +17,10 @@ export const useUsers = () => {
   
 
 
-
   //"warning", "error", "success","info"
   function SweetAlertError(error){
     dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
   }
-
-
 
 
   const dataUsersGet = async (from=0, limit=8) => {
@@ -33,7 +31,7 @@ export const useUsers = () => {
 
       const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
       localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])  
-
+      localStorage.UsersTotal = data.total  
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
@@ -43,15 +41,12 @@ export const useUsers = () => {
 
 
 
-  function dataUsersReload(){
-    dispatch(usersDataPush({ total: JSON.parse(localStorage.UsersArray).length, usuarios:users.usuarios }))
-  }
 
 
 
   const postUser = async ({ nombre, correo, password }) => {
     try {
-      const {data} = await axiosApi.post('/usuarios', { nombre, correo, password }); //post
+      const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post
 
       const { newArray } = postExplorer(data.usuario)
       dispatch(usersDataPush({usuarios: newArray}) ) 
@@ -66,7 +61,7 @@ export const useUsers = () => {
 
 
 
-  const setInfoToForm = (el) => {
+  const setInfoToForm = (el:Object) => {
     dispatch(editUserView(el))
   }
 
@@ -76,7 +71,7 @@ export const useUsers = () => {
   const newDataEdit = async (nombre, correo, uid) => {
     try {
       const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
-      dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
+      dispatch( usersDataPush({usuarios:newArray}) )
 
       await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
     } catch (error) {
@@ -88,7 +83,6 @@ export const useUsers = () => {
 
 
 
-
   const defaultModeEdith = () => {
     dispatch(defaultEditMode())
   }
@@ -96,11 +90,10 @@ export const useUsers = () => {
 
 
 
-
   const deleteUser = async (uid: String) => {
     try {
       let usuarios = users.usuarios.filter(el => el.uid !== uid) 
-      dispatch(userDeleteView({ total: usuarios.length, usuarios }))
+      dispatch(userDeleteView({usuarios}))
       dispatch(somethingWentRigth(['Usuario fue Borrado', 'Con Exito!!', 'success']))
       await axiosApi.delete(`/usuarios/${uid}`)
     } catch (error) {
@@ -115,7 +108,7 @@ export const useUsers = () => {
   const switchUser = async (uid: String) => {
     try {
       const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
-      dispatch(switchUserView({ total: newArray.length, usuarios:newArray }))  
+      dispatch(switchUserView({usuarios:newArray}))  
       await axiosApi.patch(`/usuarios/toggle/${uid}`)
     } catch (error) {
       console.log('switch :>> ');
@@ -157,12 +150,11 @@ const usersFinder = async (v:String) => {
         lowerCase.length>=1 ? dispatch(usersDataPush({usuarios:lowerCase})): null
         emailFind.length>=1 ? dispatch(usersDataPush({usuarios:emailFind})): null
         
+        console.log({ upFirstLe,upperCase,lowerCase,emailFind })
+        
         /*const {data} = await axiosApi.get(`/buscar/usuarios/${v}`) 
         dispatch(usersDataPush({usuarios:data.results}))  */ 
-        console.log({ upFirstLe,upperCase,lowerCase,emailFind });
-      }else{
-        dataUsersReload()
-      }   
+      } 
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
@@ -171,36 +163,15 @@ const usersFinder = async (v:String) => {
 
 
 const paginationSelect=(v:Number)=>{
-    localStorage.setItem('step', v)
-     
-    let step = localStorage.step
-
-    let fn = Number(step) - 8;
-    let ln = Number(step) 
-
-    let b = JSON.parse(localStorage.UsersArray).slice(fn, ln);
-    dispatch(usersDataPush({usuarios: b }) ) 
-
-   /*  dataUsersGet(v -8, v) */ 
+  const { arr } = paginationExplorer(v)
+  dispatch(usersDataPush({usuarios: arr }) ) 
+  /*  dataUsersGet(v -8, v) */ 
 }
 
 
 const paginationNext =(boo:Boolean, n=8)=>{
-  
-  let t = JSON.parse(localStorage.UsersArray).length
-
-  let step = localStorage.step
-  boo ? /* (t>step) */true ? step = Number(step)+n   :n
-      : (step>8) ? step = Number(step)-n  :n
-
-  localStorage.step = step
-  
-  let fn = Number(step) - n;
-  let ln = Number(step)
-
-  let b = JSON.parse(localStorage.UsersArray).slice(fn, ln);
-  dispatch(usersDataPush({usuarios: b }) )
-
+  const {arr} = nextExplorer(boo, n)
+  dispatch(usersDataPush({usuarios: arr }) )
    /*  dataUsersGet(step -n, step) */
 }
 

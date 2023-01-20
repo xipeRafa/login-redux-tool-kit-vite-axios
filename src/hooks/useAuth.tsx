@@ -33,6 +33,7 @@ export const useAuth = () => {
 
     function saveLsData(DATA: { usuario: { nombre: string; uid: string; }; token: string; }){
         localStorage.setItem('step', '8');
+        localStorage.setItem('UsersArray', '[{}]');
         localStorage.setItem('userName', DATA.usuario.nombre);
         localStorage.setItem('uid', DATA.usuario.uid);
         
