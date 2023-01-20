@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { errorConsoleCatch, toggleExplorer, editExplorer} from '../helpers'
+import { errorConsoleCatch, toggleExplorer, editExplorer, finderExplorer, postExplorer} from '../helpers'
 import {defaultEditMode, usersDataPush, userDeleteView, switchUserView, editUserView} from  '../store/slices/usersSlice';
 import { somethingWentWrong, somethingWentRigth, clearAlertMessage } from  '../store/slices/alertSlice'
 import axiosApi from '../api/api';
@@ -44,32 +44,25 @@ export const useUsers = () => {
 
 
   function dataUsersReload(){
-    dispatch(usersDataPush({ total: users.usuarios.length, usuarios:users.usuarios }))
+    dispatch(usersDataPush({ total: JSON.parse(localStorage.UsersArray).length, usuarios:users.usuarios }))
   }
 
 
 
   const postUser = async ({ nombre, correo, password }) => {
     try {
-      const {data} = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 
-      
-      let s = JSON.stringify(data.usuario)
-      let ss = JSON.parse(s)
-      
-      let newArr = [...JSON.parse(localStorage.UsersArray), ss]
-      localStorage.UsersArray = JSON.stringify([...newArr])
-      
-      let ls = JSON.parse(localStorage.UsersArray)
-      dispatch(usersDataPush({usuarios: ls.slice(-1) }) )
-      
+      const {data} = await axiosApi.post('/usuarios', { nombre, correo, password }); //post
+
+      const { newArray } = postExplorer(data.usuario)
+      dispatch(usersDataPush({usuarios: newArray}) ) 
     /*const { data } = await axiosApi.get('/usuarios/from=0/limit=8')
       dispatch(usersDataPush(data)); */
-      
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
     }  
   }
+
 
 
 
@@ -79,12 +72,13 @@ export const useUsers = () => {
 
 
 
+
   const newDataEdit = async (nombre, correo, uid) => {
     try {
-        await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
+      const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
+      dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
 
-        const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
-        dispatch( usersDataPush({total: newArray.length, usuarios:newArray}) )
+      await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
     } catch (error) {
         errorConsoleCatch(error)
         SweetAlertError(error)
@@ -105,10 +99,10 @@ export const useUsers = () => {
 
   const deleteUser = async (uid: String) => {
     try {
-       await axiosApi.delete(`/usuarios/${uid}`)
       let usuarios = users.usuarios.filter(el => el.uid !== uid) 
       dispatch(userDeleteView({ total: usuarios.length, usuarios }))
       dispatch(somethingWentRigth(['Usuario fue Borrado', 'Con Exito!!', 'success']))
+      await axiosApi.delete(`/usuarios/${uid}`)
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
@@ -120,9 +114,9 @@ export const useUsers = () => {
 
   const switchUser = async (uid: String) => {
     try {
-      await axiosApi.patch(`/usuarios/toggle/${uid}`)
       const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
       dispatch(switchUserView({ total: newArray.length, usuarios:newArray }))  
+      await axiosApi.patch(`/usuarios/toggle/${uid}`)
     } catch (error) {
       console.log('switch :>> ');
       errorConsoleCatch(error)
@@ -156,67 +150,24 @@ const usersFinder = async (v:String) => {
     try {
       if(v.length > 3){
 
-        v=v.trim()
+        const { upFirstLe,upperCase,lowerCase,emailFind } =finderExplorer(v)
 
-        function capitalizeFirstLetter(v) {
-          return v.charAt(0).toUpperCase() + v.slice(1);
-        }
-        let finding = capitalizeFirstLetter(v.toLowerCase());
-
-
-        function lowerFirstLetter(v) {
-          return v.charAt(0).toLowerCase() + v.slice(1);
-        }
-        let finding2 = lowerFirstLetter(v.toLowerCase());
-
-        console.log('finding', finding2)
-      
-        let a = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(v) > -1)
-        let b = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(finding) > -1)
-        let c = JSON.parse(localStorage.UsersArray).filter((el) => el.nombre.indexOf(finding2) > -1)
-
-        let d = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(v) > -1)
-        let e = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(finding) > -1)
-        let f = JSON.parse(localStorage.UsersArray).filter((el) => el.correo.indexOf(finding2) > -1)
-
-        /* console.log('a :>> ', a, 'b', b, 'c', c); */
-
-        if(a.length>=1){dispatch(usersDataPush({usuarios:a}))}
-
-        if(b.length>=1){dispatch(usersDataPush({usuarios:b}))}
-
-        if(c.length>=1){dispatch(usersDataPush({usuarios:c}))}
-
-        if(d.length>=1){dispatch(usersDataPush({usuarios:d}))}
-
-        if(e.length>=1){dispatch(usersDataPush({usuarios:e}))}
-
-        if(f.length>=1){dispatch(usersDataPush({usuarios:f}))}
- 
-    /*     const {data} = await axiosApi.get(`/buscar/usuarios/${v}`) 
+        upFirstLe.length>=1 ? dispatch(usersDataPush({usuarios:upFirstLe})): null
+        upperCase.length>=1 ? dispatch(usersDataPush({usuarios:upperCase})): null
+        lowerCase.length>=1 ? dispatch(usersDataPush({usuarios:lowerCase})): null
+        emailFind.length>=1 ? dispatch(usersDataPush({usuarios:emailFind})): null
+        
+        /*const {data} = await axiosApi.get(`/buscar/usuarios/${v}`) 
         dispatch(usersDataPush({usuarios:data.results}))  */ 
-
+        console.log({ upFirstLe,upperCase,lowerCase,emailFind });
       }else{
         dataUsersReload()
-      }
-      
+      }   
     } catch (error) {
       errorConsoleCatch(error)
       SweetAlertError(error)
     }
 }
-
- /* const PaginationRow=(boo:Boolean, n=8)=>{
-
-    let contador = localStorage.step || n
-
-    boo ? (users.total>contador) ? contador++ :n
-        : (contador>=n+1) ? contador-- :n
-
-    let a = localStorage.step = contador;
-
-    dataUsersGet(a -n, a)  
- } */
 
 
 const paginationSelect=(v:Number)=>{
@@ -263,16 +214,19 @@ const paginationNext =(boo:Boolean, n=8)=>{
     deleteUser,
     switchUser,
     postUser,
+
+    //edit
     setInfoToForm,
     newDataEdit,
     defaultModeEdith,
     uploadUserImg,
+    //finder
     usersFinder,
     paginationSelect,
     paginationNext,
 
 
-
+    //states
     editMode,
     users,
   }

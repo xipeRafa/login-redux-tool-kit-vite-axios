@@ -101,7 +101,7 @@ export const Users = () => {
 
 
 
-            <input type="search" className='form-control col-12 my-2 mx-5' style={{width:'200px'}} placeholder='Buscar Usuarios' onChange={(e)=> usersFinder(e.target.value)} />
+            <input type="search" className='form-control col-12 my-2 mx-5' style={{width:'200px'}} placeholder='Buscar Usuarios' onChange={(e)=> usersFinder(e.target.value.trim())} />
 
              {users.usuarios?.length < 2 &&  
                 <div className='mx-5 my-4'>
