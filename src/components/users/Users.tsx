@@ -27,8 +27,8 @@ export const Users = () => {
     }, [])
 
 
-    const handleDelete = (uid: String) => {
-        deleteUser(uid)
+    const handleDelete = (el: Object) => {
+        deleteUser(el)
     }
 
     const handleSwitch = (uid: String) => {
@@ -95,7 +95,7 @@ export const Users = () => {
                     <img src={el.img} width='100px' />
                     <p>Toggle: {el.toggle ? ' true' : ' false'} </p>
 
-                    <button onClick={() => handleDelete(el.uid)}>Eliminar</button>
+                    <button onClick={() => handleDelete(el)}>Eliminar</button>
                     <button onClick={() => handleSwitch(el.uid)}>Toggle</button>
                     <button onClick={() => handleEdith(el)}>Edit</button>
                     <input type="file" id="file-upload" onChange={(e) => uploadUserImg(el.uid, e.target.files[0])} />

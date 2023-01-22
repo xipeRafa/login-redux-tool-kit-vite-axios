@@ -2,6 +2,7 @@
 
 // const copyOfDynosAndFriends = JSON.parse(JSON.stringify(dynosAndFriends)) */
 
+//     const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
 
 export const toggleExplorer =(objId, array, ketToSwitch)=>{
 
@@ -12,7 +13,9 @@ export const toggleExplorer =(objId, array, ketToSwitch)=>{
     let valueId = Object.values(objId)[0]
     
 
-     newArray.map(el => el[keyId] === valueId ? el[ketToSwitch] = !el[ketToSwitch] :el) 
+    newArray.map(el => el[keyId] === valueId ? el[ketToSwitch] = !el[ketToSwitch] :el) 
+
+     localStorage.UsersArray = JSON.stringify(newArray) 
 
     return { newArray }  
 

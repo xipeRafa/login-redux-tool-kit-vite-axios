@@ -33,9 +33,11 @@ export const useAuth = () => {
 
     function saveLsData(DATA: { usuario: { nombre: string; uid: string; }; token: string; }){
         localStorage.setItem('step', '8');
+        localStorage.setItem('status', 'authenticated');
         localStorage.setItem('UsersArray', '[{},{},{}]');
+
         localStorage.setItem('userName', DATA.usuario.nombre);
-        localStorage.setItem('uid', DATA.usuario.uid);
+        localStorage.setItem('uid', DATA.usuario.uid); 
         
         localStorage.setItem('token', DATA.token);
         localStorage.setItem('token-init-date', new Date().getTime());
@@ -47,7 +49,7 @@ export const useAuth = () => {
 
     const startLogin = async ({ correo, password }) => {
 
-        dispatch(onChecking());
+         dispatch(onChecking())
         
         try {
             const { data } = await axiosApi.post('/auth/login', { correo, password });
@@ -68,7 +70,7 @@ export const useAuth = () => {
 
     const startRegister = async ({nombre, correo, password}) => {
 
-        dispatch(onChecking());
+         dispatch(onChecking()); 
 
         try {
             const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post 

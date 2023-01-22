@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import axiosApi from '../api/api';
 import { errorConsoleCatch, toggleExplorer, editExplorer, finderExplorer, postExplorer,
-          paginationExplorer, nextExplorer} from '../helpers'
+          paginationExplorer, nextExplorer, deleteExplorer} from '../helpers'
 import {defaultEditMode, usersDataPush, userDeleteView, switchUserView, editUserView} from  '../store/slices/usersSlice';
 import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSlice'
 
@@ -17,26 +17,42 @@ export const useUsers = () => {
   
 
 
+
+
   //"warning", "error", "success","info"
   function SweetAlertError(error){
     dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
   }
 
 
+
+
+
+
+
+// dispatch solo resibe objetos
+
+
   const dataUsersGet = async (from=0, limit=8) => {
     try { 
       const { data } = await axiosApi.get(`/usuarios/${from}/${limit}`)
       console.log('dataUsers limit 8:', data)
-      dispatch(usersDataPush(data))
+      dispatch(usersDataPush(data));
+      console.log('typeof Data', data)
 
       const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
       localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])  
       localStorage.UsersTotal = data.total  
       
       paginationSelect(8)
+      
     } catch (error) {
-      errorConsoleCatch(error)
+      dispatch(usersDataPush({usuarios: JSON.parse(localStorage.UsersArray)})) 
+      paginationSelect(8)
+      localStorage.UsersTotal = JSON.parse(localStorage.UsersArray).length
+
       SweetAlertError(error)
+      errorConsoleCatch('dataUsersGet:',error)
     }
   }
 
@@ -48,15 +64,17 @@ export const useUsers = () => {
 
   const postUser = async ({ nombre, correo, password }) => {
     try {
-      const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); //post
-
-      const { newArray } = postExplorer(data.usuario)
-      dispatch(usersDataPush({usuarios: newArray}) ) 
-    /*const { data } = await axiosApi.get('/usuarios/from=0/limit=8')
-      dispatch(usersDataPush(data)); */
+        const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); 
+        dispatch(usersDataPush({usuarios:users.usuarios.slice(-1)})); 
     } catch (error) {
-      errorConsoleCatch(error)
-      SweetAlertError(error)
+        if (nombre !== '' || correo !== '' || password !== '' ) {
+          const { newArray } = postExplorer({ nombre, correo, password })
+          dispatch(usersDataPush({usuarios: newArray})) 
+
+      }
+
+        SweetAlertError(error)
+        errorConsoleCatch(error)
     }  
   }
 
@@ -71,14 +89,15 @@ export const useUsers = () => {
 
 
   const newDataEdit = async (nombre, correo, uid) => {
+    
     try {
-      const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
-      dispatch( usersDataPush({usuarios:newArray}) )
+      const { newArray, indexTarget } = editExplorer({uid}, JSON.parse(localStorage.UsersArray), {nombre}, {correo})
+      dispatch( usersDataPush({usuarios:newArray.slice(indexTarget, indexTarget +1)}) )
 
-      await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); 
+     /*  await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); */ 
     } catch (error) {
-        errorConsoleCatch(error)
-        SweetAlertError(error)
+      SweetAlertError(error)
+      errorConsoleCatch(error)
     }
     dispatch(defaultEditMode()) 
   }
@@ -92,15 +111,16 @@ export const useUsers = () => {
 
 
 
-  const deleteUser = async (uid: String) => {
+  const deleteUser = async (usuario: Object) => {
     try {
-      let usuarios = users.usuarios.filter(el => el.uid !== uid) 
-      dispatch(userDeleteView({usuarios}))
-      dispatch(somethingWentRigth(['Usuario fue Borrado', 'Con Exito!!', 'success']))
-      await axiosApi.delete(`/usuarios/${uid}`)
+      const { usuarios } = deleteExplorer(usuario.uid, JSON.parse(localStorage.UsersArray))
+      dispatch(userDeleteView({usuarios:usuarios.slice(0,8)})) 
+
+      dispatch(somethingWentRigth(['Usuario fue Borrado', usuario.correo + ' ya no existe ', 'success']))
+      /* await axiosApi.delete(`/usuarios/${usuario.uid}`)  */
     } catch (error) {
-      errorConsoleCatch(error)
       SweetAlertError(error)
+      errorConsoleCatch(error)
     } 
   }
 
@@ -109,13 +129,12 @@ export const useUsers = () => {
 
   const switchUser = async (uid: String) => {
     try {
-      const { newArray } = toggleExplorer({uid}, users.usuarios, 'toggle')
-      dispatch(switchUserView({usuarios:newArray}))  
-      await axiosApi.patch(`/usuarios/toggle/${uid}`)
+       const { newArray } = toggleExplorer({uid}, JSON.parse(localStorage.UsersArray), 'toggle')
+       dispatch(switchUserView({usuarios:newArray}))  
+     /*   await axiosApi.patch(`/usuarios/toggle/${uid}`) */
     } catch (error) {
-      console.log('switch :>> ');
-      errorConsoleCatch(error)
-      SweetAlertError(error)
+        SweetAlertError(error)
+        errorConsoleCatch(error)
     } 
   }
   
@@ -124,7 +143,7 @@ export const useUsers = () => {
 
   const uploadUserImg = async(uid, file) => {
     try {
-        const {data}=await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
+        const {data} = await axiosApi.put(`/uploads/usuarios/${uid}`, {file},{
         headers: {
           "Content-Type": "multipart/form-data",
         }})
@@ -136,8 +155,8 @@ export const useUsers = () => {
         dispatch(usersDataPush({ usuarios:newArray }))
            
     } catch (error) {
-        errorConsoleCatch(error)
         SweetAlertError(error)
+        errorConsoleCatch(error)
     }
   }
 
@@ -163,8 +182,8 @@ const usersFinder = async (v:String) => {
         dispatch(usersDataPush({usuarios:data.results}))  */ 
       } 
     } catch (error) {
-      errorConsoleCatch(error)
-      SweetAlertError(error)
+        SweetAlertError(error)
+        errorConsoleCatch(error)
     }
 }
 

@@ -10,7 +10,7 @@ export const Nav = ({ startLogout, user, status }) => {
             { user.nombre }
         </span>
 
-        {status === 'authenticated' &&
+        {localStorage.status === 'authenticated' &&
           <div>
             <span>
               <Link style={{color:"white"}} to="/users"      className='mx-5'>Users     </Link>
