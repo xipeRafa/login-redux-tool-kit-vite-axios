@@ -25,9 +25,7 @@ export const useUsers = () => {
   }
 
 
-
-
-
+let usersLSArr = JSON.parse(localStorage.UsersArray)
 
 
 // dispatch solo resibe objetos
@@ -36,9 +34,9 @@ export const useUsers = () => {
   const dataUsersGet = async (from=0, limit=8) => {
     try { 
       const { data } = await axiosApi.get(`/usuarios/${from}/${limit}`)
-      console.log('dataUsers limit 8:', data)
+      //console.log('dataUsers limit 8:', data)
       dispatch(usersDataPush(data));
-      console.log('typeof Data', data)
+      //console.log('typeof Data', data)
 
       const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
       localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])  
@@ -47,9 +45,9 @@ export const useUsers = () => {
       paginationSelect(8)
       
     } catch (error) {
-      dispatch(usersDataPush({usuarios: JSON.parse(localStorage.UsersArray)})) 
+      dispatch(usersDataPush({usuarios: usersLSArr})) 
       paginationSelect(8)
-      localStorage.UsersTotal = JSON.parse(localStorage.UsersArray).length
+      localStorage.UsersTotal = usersLSArr.length
 
       SweetAlertError(error)
       errorConsoleCatch('dataUsersGet:',error)
@@ -64,18 +62,52 @@ export const useUsers = () => {
 
   const postUser = async ({ nombre, correo, password }) => {
     try {
-        const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); 
-        dispatch(usersDataPush({usuarios:users.usuarios.slice(-1)})); 
+      
+        const { newArray } = postExplorer({ nombre, correo, password })
+        dispatch(usersDataPush({usuarios: newArray}))
+
+        await axiosApi.post('/usuarios', { nombre, correo, password }); 
+        reWriteId()
+
     } catch (error) {
         if (nombre !== '' || correo !== '' || password !== '' ) {
-          const { newArray } = postExplorer({ nombre, correo, password })
-          dispatch(usersDataPush({usuarios: newArray})) 
 
-      }
+          let fallPostUsers = JSON.parse(localStorage.fallPostUsers)
+          let w = fallPostUsers.some(el => el.correo === correo)
 
+          if (!w) {
+            const { newArray } = postExplorer({ nombre, correo, password })
+            dispatch(usersDataPush({usuarios: newArray})) 
+          }
+
+        }
         SweetAlertError(error)
         errorConsoleCatch(error)
     }  
+  }
+
+
+  function reWriteId() {
+    
+    let fallPostUsers = JSON.parse(localStorage.fallPostUsers)
+
+    if (fallPostUsers.length>0) {
+      
+      for (let index = 0; index <= fallPostUsers.length-2; index++) {
+          const { nombre, correo, password, uid } = fallPostUsers[index]
+
+          let iqual = usersLSArr.some(el => el.uid === uid) // true hay otro igual 
+
+          if (iqual) {
+            let g = usersLSArr.filter(el => el.uid !== uid)
+            localStorage.UsersArray = JSON.stringify(g)
+
+            postUser({nombre, correo, password}) 
+          }
+          
+      }
+        localStorage.fallPostUsers = '[]'  
+    }
   }
 
 
@@ -88,12 +120,10 @@ export const useUsers = () => {
 
 
 
-  const newDataEdit = async (nombre, correo, uid) => {
-    
+  const newDataEdit = async (nombre, correo, uid) => { 
     try {
-      const { newArray, indexTarget } = editExplorer({uid}, JSON.parse(localStorage.UsersArray), {nombre}, {correo})
+      const { newArray, indexTarget } = editExplorer({uid}, usersLSArr, {nombre}, {correo})
       dispatch( usersDataPush({usuarios:newArray.slice(indexTarget, indexTarget +1)}) )
-
      /*  await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); */ 
     } catch (error) {
       SweetAlertError(error)
@@ -113,7 +143,7 @@ export const useUsers = () => {
 
   const deleteUser = async (usuario: Object) => {
     try {
-      const { usuarios } = deleteExplorer(usuario.uid, JSON.parse(localStorage.UsersArray))
+      const { usuarios } = deleteExplorer(usuario.uid, usersLSArr)
       dispatch(userDeleteView({usuarios:usuarios.slice(0,8)})) 
 
       dispatch(somethingWentRigth(['Usuario fue Borrado', usuario.correo + ' ya no existe ', 'success']))
@@ -129,7 +159,7 @@ export const useUsers = () => {
 
   const switchUser = async (uid: String) => {
     try {
-       const { newArray } = toggleExplorer({uid}, JSON.parse(localStorage.UsersArray), 'toggle')
+       const { newArray } = toggleExplorer({uid}, usersLSArr, 'toggle')
        dispatch(switchUserView({usuarios:newArray}))  
      /*   await axiosApi.patch(`/usuarios/toggle/${uid}`) */
     } catch (error) {

@@ -4,11 +4,11 @@
 
 export const postExplorer=({ nombre, correo, password})=>{
 
-    let usuario ={
+    let usuario = {
         correo,
         nombre,
         password,
-        'uid': 'forAWhyleId' + Date.now(),
+        'uid': 'fall-Id-' + nombre.nombre + Date.now(),
         'estado': true,
         'google': false,
         'img': "",
@@ -16,21 +16,31 @@ export const postExplorer=({ nombre, correo, password})=>{
         'toggle': true
     }
 
-    let string = JSON.stringify(usuario)
-    let arr = JSON.parse(string)
-
     
-    let newArr = [...JSON.parse(localStorage.UsersArray), arr]
+    let newArr = [...JSON.parse(localStorage.UsersArray), usuario]
 
-    localStorage.UsersArray = JSON.stringify([...newArr])
+    localStorage.UsersArray = JSON.stringify([...newArr]) //=================
     
 
     let newArray = JSON.parse(localStorage.UsersArray).slice(-1)
 
+
+
+//-=-=-=-=-=--= fall
+
+    let fall = JSON.parse(localStorage.fallPostUsers) 
+    fall.push(usuario)
+
+    localStorage.fallPostUsers = JSON.stringify(fall) 
+
+    
+//-=-=-=-=-=-=-=-=-=- update counter
     let n = Number(localStorage.UsersTotal) + 1
     localStorage.UsersTotal = n
 
-    return {newArray} 
+
+
+    return { newArray } 
     
 }
 
