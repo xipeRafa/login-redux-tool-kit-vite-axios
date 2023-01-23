@@ -9,6 +9,7 @@ import { somethingWentWrong, somethingWentRigth } from  '../store/slices/alertSl
 
 
 
+
 export const useUsers = () => {
 
   const { users, editMode } = useSelector(state => state.usersSlice);
@@ -26,6 +27,7 @@ export const useUsers = () => {
 
 
 let usersLSArr = JSON.parse(localStorage.UsersArray)
+let fallPostUsersArr = JSON.parse(localStorage.fallPostUsersArr)
 
 
 // dispatch solo resibe objetos
@@ -39,7 +41,7 @@ let usersLSArr = JSON.parse(localStorage.UsersArray)
       //console.log('typeof Data', data)
 
       const alls = await axiosApi.get(`/usuarios/0/${data.total}`)
-      localStorage.UsersArray = JSON.stringify([...alls.data.usuarios])  
+      localStorage.UsersArray = JSON.stringify([...alls.data.usuarios, ...fallPostUsersArr])  
       localStorage.UsersTotal = data.total  
       
       paginationSelect(8)
@@ -57,58 +59,72 @@ let usersLSArr = JSON.parse(localStorage.UsersArray)
 
 
 
-
+/* -=-=-=-=-=-=-=-=-=--=- POST =-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- post =-=-=-=-=-=-=-=-=-=-=- */
+/* -=-=-=-=-=-=-=-=-=--=- POST =-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- post =-=-=-=-=-=-=-=-=-=-=- */
+/* -=-=-=-=-=-=-=-=-=--=- POST =-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- post =-=-=-=-=-=-=-=-=-=-=- */
 
 
   const postUser = async ({ nombre, correo, password }) => {
+    let saveInFall
     try {
-      
-        const { newArray } = postExplorer({ nombre, correo, password })
+
+        const { newArray } = postExplorer({ nombre, correo, password }, saveInFall = false)
         dispatch(usersDataPush({usuarios: newArray}))
 
-        await axiosApi.post('/usuarios', { nombre, correo, password }); 
-        reWriteId()
-
-    } catch (error) {
-        if (nombre !== '' || correo !== '' || password !== '' ) {
-
-          let fallPostUsers = JSON.parse(localStorage.fallPostUsers)
-          let w = fallPostUsers.some(el => el.correo === correo)
-
-          if (!w) {
-            const { newArray } = postExplorer({ nombre, correo, password })
-            dispatch(usersDataPush({usuarios: newArray})) 
-          }
-
+        const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); 
+      
+        if (data && fallPostUsersArr.length>=1){ // se ejecuta online
+            reWriteId()
         }
+
+    } catch (error) {  // aqui se ejecuta cuando esta offline
+        console.log('postUser error :>> ');
+        const { newArray } = postExplorer({ nombre, correo, password }, saveInFall = true)
+        dispatch(usersDataPush({usuarios: newArray})) 
         SweetAlertError(error)
         errorConsoleCatch(error)
     }  
+
   }
 
 
   function reWriteId() {
-    
-    let fallPostUsers = JSON.parse(localStorage.fallPostUsers)
 
-    if (fallPostUsers.length>0) {
-      
-      for (let index = 0; index <= fallPostUsers.length-2; index++) {
-          const { nombre, correo, password, uid } = fallPostUsers[index]
+      for (let index = 0; index < fallPostUsersArr.length; index++) {  
 
-          let iqual = usersLSArr.some(el => el.uid === uid) // true hay otro igual 
+          const { uid } = fallPostUsersArr[index]
 
-          if (iqual) {
-            let g = usersLSArr.filter(el => el.uid !== uid)
-            localStorage.UsersArray = JSON.stringify(g)
-
-            postUser({nombre, correo, password}) 
-          }
+          let get = usersLSArr.filter(el => el.uid === uid) // ona array with One obj
           
-      }
-        localStorage.fallPostUsers = '[]'  
-    }
+          const { nombre, correo, password } = get[0] 
+
+          reWriteId_2({ nombre, correo, password })
+          
+      } 
+
+      localStorage.fallPostUsersArr = '[]' 
+  
   }
+
+
+  async function reWriteId_2({ nombre, correo, password }){
+      try {
+    
+          const { data } = await axiosApi.post('/usuarios', { nombre, correo, password }); 
+          console.log('objs with new Mongo Id', data)
+  
+      } catch (error) {  // aqui se ejecuta cuando esta offline
+          console.log('reWriteId_2 error :>> ');
+          SweetAlertError(error)
+          errorConsoleCatch(error)
+      } 
+  }
+
+/* -=-=-=-=-=-=-=-=-=--=- POST END =-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- post end =-=-=-=-=-=-=-=-=-=-=- */
+/* -=-=-=-=-=-=-=-=-=--=- POST END =-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- post end =-=-=-=-=-=-=-=-=-=-=- */
+/* -=-=-=-=-=-=-=-=-=--=- POST END =-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- post end =-=-=-=-=-=-=-=-=-=-=- */
+
+
 
 
 
@@ -120,10 +136,13 @@ let usersLSArr = JSON.parse(localStorage.UsersArray)
 
 
 
+
+
   const newDataEdit = async (nombre, correo, uid) => { 
     try {
       const { newArray, indexTarget } = editExplorer({uid}, usersLSArr, {nombre}, {correo})
       dispatch( usersDataPush({usuarios:newArray.slice(indexTarget, indexTarget +1)}) )
+      localStorage.UsersArray = JSON.stringify(newArray) 
      /*  await axiosApi.put(`/usuarios/${uid}`, { nombre, correo }); */ 
     } catch (error) {
       SweetAlertError(error)
@@ -143,7 +162,7 @@ let usersLSArr = JSON.parse(localStorage.UsersArray)
 
   const deleteUser = async (usuario: Object) => {
     try {
-      const { usuarios } = deleteExplorer(usuario.uid, usersLSArr)
+      const { usuarios } = deleteExplorer(usuario.uid, usersLSArr, fallPostUsersArr)
       dispatch(userDeleteView({usuarios:usuarios.slice(0,8)})) 
 
       dispatch(somethingWentRigth(['Usuario fue Borrado', usuario.correo + ' ya no existe ', 'success']))
