@@ -35,7 +35,7 @@ export const useAuth = () => {
         localStorage.setItem('step', '8');
         localStorage.setItem('status', 'authenticated');
         localStorage.setItem('UsersArray', '[{},{},{}]');
-        localStorage.fallPostUsers = '[]'
+        localStorage.fallPostUsersArr = '[]'
 
         localStorage.setItem('userName', DATA.usuario.nombre);
         localStorage.setItem('uid', DATA.usuario.uid); 

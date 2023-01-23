@@ -6,7 +6,6 @@
 
 export function editExplorer(objId, array){
 
-
      const arrString = JSON.stringify(array)
      const newArray =  JSON.parse(arrString)
 
@@ -19,7 +18,7 @@ export function editExplorer(objId, array){
 
 
 
-      for (let index = 2; index < arguments.length; index++) {
+     for (let index = 2; index < arguments.length; index++) {
         let arg = arguments[index];
 
         let key = Object.keys(arg)[0]
@@ -30,13 +29,7 @@ export function editExplorer(objId, array){
      } 
 
 
-
-     localStorage.UsersArray = JSON.stringify(newArray) 
-
-
-
      return { newArray, indexTarget }   
-
      
  }
 

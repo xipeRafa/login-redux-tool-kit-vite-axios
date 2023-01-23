@@ -8,7 +8,7 @@ export const postExplorer=({ nombre, correo, password})=>{
         correo,
         nombre,
         password,
-        'uid': 'fall-Id-' + nombre.nombre + Date.now(),
+        'uid': 'fall-Id-' + correo + Date.now(),
         'estado': true,
         'google': false,
         'img': "",
@@ -28,10 +28,11 @@ export const postExplorer=({ nombre, correo, password})=>{
 
 //-=-=-=-=-=--= fall
 
-    let fall = JSON.parse(localStorage.fallPostUsers) 
+    let fall = JSON.parse(localStorage.fallPostUsersArr) 
     fall.push(usuario)
 
-    localStorage.fallPostUsers = JSON.stringify(fall) 
+    localStorage.fallPostUsersArr = JSON.stringify(fall) 
+
 
     
 //-=-=-=-=-=-=-=-=-=- update counter
