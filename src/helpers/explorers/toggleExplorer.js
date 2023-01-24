@@ -15,7 +15,7 @@ export const toggleExplorer =(objId, array, ketToSwitch)=>{
 
     newArray.map(el => el[keyId] === valueId ? el[ketToSwitch] = !el[ketToSwitch] :el) 
 
-     localStorage.UsersArray = JSON.stringify(newArray) 
+    localStorage.UsersArray = JSON.stringify(newArray) 
 
     return { newArray }  
 
