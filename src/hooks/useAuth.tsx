@@ -18,14 +18,14 @@ export const useAuth = () => {
 
     //"warning", "error", "success","info"
     function SweetAlertError(error){
-        dispatch(somethingWentWrong(['Something Went Wrong', error?.response.data.errors[0].msg || 'working', 'error']))
+        dispatch(somethingWentWrong(['Something Went Wrong', error?.response?.data?.errors[0]?.msg || 'working', 'error']))
     }
 
 
     function defaultAlert(){
         setTimeout(() => {
             dispatch(clearAlertMessage())
-        }, 500);
+        }, 1000);
     }
 
 
@@ -35,7 +35,9 @@ export const useAuth = () => {
         localStorage.setItem('step', '8');
         localStorage.setItem('status', 'authenticated');
         localStorage.setItem('UsersArray', '[{},{},{}]');
-        localStorage.fallPostUsersArr = '[]'
+        localStorage.fallUsersArr = '[]'
+        localStorage.UserDeletedArr = '[]'
+        localStorage.UserDeletedArr = '[]'
 
         localStorage.setItem('userName', DATA.usuario.nombre);
         localStorage.setItem('uid', DATA.usuario.uid); 
@@ -125,9 +127,9 @@ export const useAuth = () => {
     return {
         //* estado
         status,
-        user,
         sweetAlertMessage,
         defaultAlert,
+        user,
 
         //* Métodos
         checkLogin, 

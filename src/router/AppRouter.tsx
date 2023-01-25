@@ -30,16 +30,15 @@ const AppRouter = () => {
 
 
 
-   /*  useEffect(() => {
+    useEffect(() => {
         checkLogin();
-    }, [])  */
+    }, [])  
 
-
-/* 
-     if (status === 'checking') {
+ 
+    if (status === 'checking') {
         return <h3>Cargando...</h3>
     }
- */
+ 
 
 
 
@@ -48,16 +47,16 @@ const AppRouter = () => {
     return (
         <div>
             <Nav startLogout={startLogout} user={user} status={status} />
-        <Routes>
-            <Route path="/auth/login"    element={<Login  startLogin={startLogin}        />} />
-            <Route path="/auth/register" element={<SignUp startRegister={startRegister}  />} />
+            <Routes>
+                <Route path="/auth/login"    element={<Login  startLogin={startLogin}       status={status} />} />
+                <Route path="/auth/register" element={<SignUp startRegister={startRegister} status={status} />} />
 
-            <Route path="/categorias" element={<Categorias />} />
-            <Route path="/users"      element={<Users      />} />
-            <Route path="/productos"  element={<Productos  />} />
+                <Route path="/categorias" element={<Categorias />} />
+                <Route path="/users"      element={<Users      />} />
+                <Route path="/productos"  element={<Productos  />} />
 
-            <Route path="/*" element={<Navigate to="/auth/login" />} /> 
-        </Routes>
+                <Route path="/*" element={<Navigate to="/auth/login" />} /> 
+            </Routes>
         </div>
     )
 }

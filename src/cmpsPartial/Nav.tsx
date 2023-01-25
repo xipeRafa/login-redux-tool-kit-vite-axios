@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom';
 
-export const Nav = ({ startLogout, user, status }) => {
+export const Nav = ({ startLogout, status, user }) => {
 
   return (
     <div className="navbar navbar-dark bg-black mb-4 px-4">
 
         <span className="navbar-brand">
             <i className="fas fa-calendar-alt"></i>&nbsp;
-            { user.nombre }
+             { user.nombre } 
         </span>
 
-        {localStorage.status === 'authenticated' &&
+        {status === 'authenticated' &&
           <div>
             <span>
               <Link style={{color:"white"}} to="/users"      className='mx-5'>Users     </Link>

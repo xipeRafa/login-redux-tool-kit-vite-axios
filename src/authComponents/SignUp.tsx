@@ -16,7 +16,7 @@ const registerFormFields = {
 
 
 
-export const SignUp = ({ startRegister }) => {
+export const SignUp = ({ startRegister, status }) => {
 
 
 
@@ -47,7 +47,9 @@ export const SignUp = ({ startRegister }) => {
 
 
     return (
+        
         <div className="container login-container">
+            { status === 'not-authenticated' &&
             <div className="row">
                 <div className="col-md-6 login-form-2">
                     <h3>Registro</h3>
@@ -106,7 +108,7 @@ export const SignUp = ({ startRegister }) => {
                     <Link to="/auth/login">Login</Link>
 
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

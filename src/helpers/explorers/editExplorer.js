@@ -2,9 +2,13 @@
 // the next arguments should be like objects {} to get the key 
 // and always use the key name like parameter name
 
-//   const { newArray } = editExplorer({uid}, users.usuarios, {nombre}, {correo})
+//   const { newArray } = editExplorer(saveInFall, {uid}, array, {nombre}, {correo})
 
-export function editExplorer(objId, array){
+
+
+
+export function editExplorer(saveInFall=false, objId, fallUsersArr, array){
+
 
      const arrString = JSON.stringify(array)
      const newArray =  JSON.parse(arrString)
@@ -16,9 +20,11 @@ export function editExplorer(objId, array){
 
      let indexTarget = newArray.findIndex((el) => el[keyId] === valueId)
 
+     let objTarget = newArray.slice(indexTarget, indexTarget +1)[0]
 
 
-     for (let index = 2; index < arguments.length; index++) {
+
+     for (let index = 4; index < arguments.length; index++) {
         let arg = arguments[index];
 
         let key = Object.keys(arg)[0]
@@ -28,11 +34,31 @@ export function editExplorer(objId, array){
         newArray.map(el => el[keyId] === valueId ? el[key] = value :el) 
      } 
 
-      
+
+      localStorage.UsersArray = JSON.stringify(newArray) //try
 
 
-     return { newArray, indexTarget }   
+     
+     
+      if (saveInFall) {
+
+         let some = fallUsersArr.some(el => el.uid === objTarget.uid) //catch
+
+         if(!some){ // no existe
+            fallUsersArr.push(objTarget)  
+            localStorage.fallUsersArr = JSON.stringify(fallUsersArr)  
+         }else{
+            let ind = fallUsersArr.findIndex(el => el.uid === objTarget.uid) // true
+            fallUsersArr.splice(ind, 1, objTarget) // replace
+            localStorage.fallUsersArr = JSON.stringify(fallUsersArr)
+         }
+
+      }
+
+
+
+
+     
+     return { objTarget }   
      
  }
-
-
