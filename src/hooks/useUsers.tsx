@@ -253,8 +253,8 @@ export const useUsers = () => {
           dispatch(somethingWentRigth(['Foto fue Actualizada', 'Con Exito!!', 'success']))  
 
           let img = data.img
-          const { newArray } = editExplorer(false, {uid}, users.usuarios, {img})
-          dispatch(usersDataPush({ usuarios:newArray }))
+          const { objTarget } = editExplorer(false, {uid}, [], users.usuarios, {img})
+          dispatch(usersDataPush({ usuarios:[objTarget] })) 
           UpDateDB()  
       } catch (error) {
           console.log('switchUser error :>>', error)

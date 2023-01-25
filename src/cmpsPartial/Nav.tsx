@@ -7,10 +7,10 @@ export const Nav = ({ startLogout, status, user }) => {
 
         <span className="navbar-brand">
             <i className="fas fa-calendar-alt"></i>&nbsp;
-             { user.nombre || localStorage.userName } 
+             { user.nombre } 
         </span>
 
-        {status === 'authenticated' || localStorage.status === 'authenticated' &&
+        { status &&
           <div>
             <span>
               <Link style={{color:"white"}} to="/users"      className='mx-5'>Users     </Link>
@@ -26,4 +26,5 @@ export const Nav = ({ startLogout, status, user }) => {
 
     </div>
   )
+
 }

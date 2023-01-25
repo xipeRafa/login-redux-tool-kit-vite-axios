@@ -59,7 +59,7 @@ export const useAuth = () => {
             saveLsData(data)
 
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
-            location.pathname = '/productos'             
+            //location.pathname = '/productos'             
         } catch (error) {
             errorConsoleCatch(error) 
             SweetAlertError(error)
@@ -101,7 +101,7 @@ export const useAuth = () => {
         
         try {
             const { data } = await axiosApi.get('auth/renew');
-            dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
+            dispatch(onLogin({ nombre:data.nombre, uid:data.uid }));
         } catch (error) {
             errorConsoleCatch(error)
             localStorage.clear();

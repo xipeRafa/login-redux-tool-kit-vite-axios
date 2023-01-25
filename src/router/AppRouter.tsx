@@ -16,7 +16,7 @@ const AppRouter = () => {
     const { status,  checkLogin,  startLogin, startRegister,startLogout, 
             user, sweetAlertMessage, defaultAlert } = useAuth();
 
-    console.log('status:', status)
+    console.log('status Router:', status)
 
 
 
@@ -29,7 +29,7 @@ const AppRouter = () => {
     }, [sweetAlertMessage]) 
 
 
-/* 
+ 
     useEffect(() => {
         checkLogin();
     }, [])  
@@ -37,7 +37,7 @@ const AppRouter = () => {
  
     if (status === 'checking') {
         return <h3>Cargando...</h3>
-    } */
+    } 
  
 
 

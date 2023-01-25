@@ -5,7 +5,6 @@ import { useForm } from '../../helpers';
 
 
 
-
 export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith }) => {
 
     const[name2, setName2]=useState({
