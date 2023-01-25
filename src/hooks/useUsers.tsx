@@ -71,11 +71,15 @@ export const useUsers = () => {
 
   const postUser = async ({ nombre, correo, password }) => {
       try {
-          await axiosApi.post('/usuarios', { nombre, correo, password })
-            .then(data => console.log('a', data)) 
+          const { newArray } = postExplorer(false, { nombre, correo, password })
+          dispatch(usersDataPush({usuarios:newArray})) 
+
+          const { data } = await axiosApi.post('/usuarios', { nombre, correo, password })
+          dispatch(usersDataPush({usuarios:[data.usuario]})) 
+          console.log('data', data)
           UpDateDB()
       } catch (error) {  // aqui se ejecuta cuando esta offline
-          const { newArray } = postExplorer({ nombre, correo, password })
+          const { newArray } = postExplorer(true, { nombre, correo, password })
           dispatch(usersDataPush({usuarios: newArray})) 
 
           //SweetAlertError(error)
@@ -234,7 +238,6 @@ export const useUsers = () => {
           //SweetAlertError(error) 
           errorConsoleCatch(error) 
       } 
-
   }
   
 

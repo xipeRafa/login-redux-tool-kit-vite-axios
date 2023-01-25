@@ -29,7 +29,7 @@ const AppRouter = () => {
     }, [sweetAlertMessage]) 
 
 
-
+/* 
     useEffect(() => {
         checkLogin();
     }, [])  
@@ -37,7 +37,7 @@ const AppRouter = () => {
  
     if (status === 'checking') {
         return <h3>Cargando...</h3>
-    }
+    } */
  
 
 

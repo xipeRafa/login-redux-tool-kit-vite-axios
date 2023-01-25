@@ -2,7 +2,7 @@
 
 
 
-export const postExplorer = ({nombre, correo, password}) => {
+export const postExplorer = (saveInFall, {nombre, correo, password}) => {
 console.log('saveInFall- postExplorer', saveInFall)
     console.log('postExplorer :>> ');
 
@@ -20,10 +20,10 @@ console.log('saveInFall- postExplorer', saveInFall)
 
     
     let newArr = [...JSON.parse(localStorage.UsersArray), usuario] // concatena
-
-
-    localStorage.UsersArray = JSON.stringify([...newArr]) // push UsersArray    
-
+        
+    if (saveInFall === false) {
+        localStorage.UsersArray = JSON.stringify([...newArr]) // push UsersArray    
+    }
 
     let newArray = JSON.parse(localStorage.UsersArray).slice(-1)  // real [{}]
 
@@ -31,12 +31,14 @@ console.log('saveInFall- postExplorer', saveInFall)
 
 
 
-
-    let fall = JSON.parse(localStorage.fallUsersArr) 
-
-    fall.push(usuario)
+    if (saveInFall === true) {
+        console.log('fall--')
+        let fall = JSON.parse(localStorage.fallUsersArr) 
     
-    localStorage.fallUsersArr = JSON.stringify(fall) 
+        fall.push(usuario)
+        
+        localStorage.fallUsersArr = JSON.stringify(fall) 
+    }
 
 
 
