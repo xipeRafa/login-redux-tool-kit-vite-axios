@@ -37,6 +37,8 @@ export const PostForm = ({postUser, editMode, newDataEdit, defaultModeEdith }) =
          onResetForm()
     }
 
+
+    
     const handleCancelEdit =()=>{
         defaultModeEdith()
         setName2({nameUser: '', email: '', password:''})

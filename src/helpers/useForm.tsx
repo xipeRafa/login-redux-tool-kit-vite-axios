@@ -78,6 +78,11 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 
         setFormValidation(formCheckedValues);
     }
+    
+    const isValidEmail = ( email: string ) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 
 
 
@@ -88,6 +93,7 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
         onResetForm,
 
         ...formValidation,
-        isFormValid
+        isFormValid,
+        isValidEmail, // retorna true or false, resive el email text input 
     }
 }

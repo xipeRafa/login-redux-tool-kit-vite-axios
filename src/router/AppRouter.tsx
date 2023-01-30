@@ -30,14 +30,14 @@ const AppRouter = () => {
 
 
  
-    useEffect(() => {
+  /*   useEffect(() => {
         checkLogin();
     }, [])  
 
  
     if (status === 'checking') {
         return <h3>Cargando...</h3>
-    } 
+    }  */
  
 
 

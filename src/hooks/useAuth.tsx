@@ -59,7 +59,7 @@ export const useAuth = () => {
             saveLsData(data)
 
             dispatch(onLogin({ nombre: data.usuario.nombre, uid: data.usuario.uid }));
-            //location.pathname = '/productos'             
+            location.pathname = '/productos'             
         } catch (error) {
             errorConsoleCatch(error) 
             SweetAlertError(error)
